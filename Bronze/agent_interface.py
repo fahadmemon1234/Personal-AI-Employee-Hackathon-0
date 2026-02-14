@@ -1,155 +1,172 @@
 """
-AI Agent Interface Script
-This script demonstrates how the AI Agent can proactively read from and write to the vault
+Agent Interface for Bronze Tier Workspace Management
+Registers folder management tasks as official Agent Skills
 """
 
 import os
 import json
 from datetime import datetime
-from pathlib import Path
+from watchdog.observers import Observer
+from watchdog.events import FileSystemEventHandler
 
 
-class AgentInterface:
-    """Interface for the AI Agent to interact with the vault"""
+class FolderManagementSkills:
+    """
+    Class containing folder management skills for the AI agent
+    """
     
-    def __init__(self):
-        self.vault_path = Path.cwd()  # Current directory as vault
-        self.inbox_path = self.vault_path / "Inbox"
-        self.needs_action_path = self.vault_path / "Needs_Action"
-        self.dashboard_path = self.vault_path / "Dashboard.md"
+    def __init__(self, base_dir=None):
+        self.base_dir = base_dir or os.path.dirname(os.path.abspath(__file__))
+        self.inbox_dir = os.path.join(self.base_dir, "Inbox")
+        self.needs_action_dir = os.path.join(self.base_dir, "Needs_Action")
+        self.done_dir = os.path.join(self.base_dir, "Done")
         
-    def read_inbox_status(self):
-        """Read the status of the Inbox folder"""
-        if self.inbox_path.exists():
-            files = list(self.inbox_path.glob("*"))
-            return {
-                "folder_exists": True,
-                "file_count": len(files),
-                "files": [f.name for f in files],
-                "last_modified": self._get_last_modified(self.inbox_path)
-            }
-        else:
-            return {"folder_exists": False, "file_count": 0, "files": []}
+        # Create directories if they don't exist
+        for directory in [self.inbox_dir, self.needs_action_dir, self.done_dir]:
+            os.makedirs(directory, exist_ok=True)
     
-    def read_needs_action_status(self):
-        """Read the status of the Needs_Action folder"""
-        if self.needs_action_path.exists():
-            files = list(self.needs_action_path.glob("*"))
-            return {
-                "folder_exists": True,
-                "file_count": len(files),
-                "files": [f.name for f in files],
-                "last_modified": self._get_last_modified(self.needs_action_path)
-            }
-        else:
-            return {"folder_exists": False, "file_count": 0, "files": []}
-    
-    def read_dashboard(self):
-        """Read the current dashboard content"""
-        if self.dashboard_path.exists():
-            with open(self.dashboard_path, 'r', encoding='utf-8') as f:
-                content = f.read()
-            return content
-        else:
-            return "Dashboard file not found"
-    
-    def update_dashboard_with_info(self, info):
-        """Update the dashboard with new information"""
-        current_content = self.read_dashboard()
-        
-        # Add the new information to the dashboard
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        update_section = f"\n\n## Last Updated: {timestamp}\n"
-        update_section += f"### System Info Added:\n{info}\n"
-        
-        # Write the updated content back to the dashboard
-        with open(self.dashboard_path, 'a', encoding='utf-8') as f:
-            f.write(update_section)
-        
-        print(f"Dashboard updated at {timestamp}")
-    
-    def _get_last_modified(self, path):
-        """Get the last modified time of a directory or file"""
-        if path.is_file():
-            return datetime.fromtimestamp(path.stat().st_mtime).strftime('%Y-%m-%d %H:%M:%S')
-        elif path.is_dir():
-            # Return the most recent modification time of any file in the directory
-            files = list(path.glob("*"))
-            if files:
-                latest = max(files, key=lambda x: x.stat().st_mtime)
-                return datetime.fromtimestamp(latest.stat().st_mtime).strftime('%Y-%m-%d %H:%M:%S')
-        return "N/A"
-    
-    def get_system_summary(self):
-        """Generate a summary of the system status"""
-        inbox_status = self.read_inbox_status()
-        needs_action_status = self.read_needs_action_status()
-        
-        summary = {
-            "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "vault_location": str(self.vault_path),
-            "inbox": inbox_status,
-            "needs_action": needs_action_status,
-            "dashboard_exists": self.dashboard_path.exists()
-        }
-        
-        return summary
-    
-    def write_to_vault(self, filename, content, folder=None):
-        """Write content to a file in the vault"""
-        if folder:
-            file_path = self.vault_path / folder / filename
-            # Create folder if it doesn't exist
-            (self.vault_path / folder).mkdir(exist_ok=True)
-        else:
-            file_path = self.vault_path / filename
+    def move_file_to_needs_action(self, file_path):
+        """
+        Skill: Move a file from any location to Needs_Action folder
+        """
+        try:
+            filename = os.path.basename(file_path)
+            dest_path = os.path.join(self.needs_action_dir, filename)
+            os.rename(file_path, dest_path)
             
-        with open(file_path, 'w', encoding='utf-8') as f:
-            f.write(content)
+            # Create metadata
+            self._create_file_metadata(dest_path, filename, "Moved to Needs_Action")
+            
+            return {
+                "success": True,
+                "message": f"File {filename} moved to Needs_Action",
+                "destination": dest_path
+            }
+        except Exception as e:
+            return {
+                "success": False,
+                "message": f"Error moving file: {str(e)}"
+            }
+    
+    def move_file_to_done(self, file_path):
+        """
+        Skill: Move a file from Needs_Action to Done folder
+        """
+        try:
+            filename = os.path.basename(file_path)
+            dest_path = os.path.join(self.done_dir, filename)
+            os.rename(file_path, dest_path)
+            
+            # Create completion metadata
+            self._create_file_metadata(dest_path, filename, "Completed and moved to Done")
+            
+            return {
+                "success": True,
+                "message": f"File {filename} moved to Done",
+                "destination": dest_path
+            }
+        except Exception as e:
+            return {
+                "success": False,
+                "message": f"Error moving file to Done: {str(e)}"
+            }
+    
+    def list_inbox_files(self):
+        """
+        Skill: List all files in the Inbox folder
+        """
+        try:
+            files = os.listdir(self.inbox_dir)
+            return {
+                "success": True,
+                "files": files,
+                "count": len(files)
+            }
+        except Exception as e:
+            return {
+                "success": False,
+                "message": f"Error listing Inbox files: {str(e)}"
+            }
+    
+    def list_needs_action_files(self):
+        """
+        Skill: List all files in the Needs_Action folder
+        """
+        try:
+            files = os.listdir(self.needs_action_dir)
+            return {
+                "success": True,
+                "files": files,
+                "count": len(files)
+            }
+        except Exception as e:
+            return {
+                "success": False,
+                "message": f"Error listing Needs_Action files: {str(e)}"
+            }
+    
+    def list_done_files(self):
+        """
+        Skill: List all files in the Done folder
+        """
+        try:
+            files = os.listdir(self.done_dir)
+            return {
+                "success": True,
+                "files": files,
+                "count": len(files)
+            }
+        except Exception as e:
+            return {
+                "success": False,
+                "message": f"Error listing Done files: {str(e)}"
+            }
+    
+    def _create_file_metadata(self, file_path, original_filename, action_taken):
+        """
+        Private method to create metadata for processed files
+        """
+        metadata_content = f"""# Metadata for {original_filename}
+
+## Processing Information
+- Action Taken: {action_taken}
+- Date Processed: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+- File Size: {os.path.getsize(file_path)} bytes
+- File Type: {os.path.splitext(original_filename)[1]}
+"""
+
+        # Create metadata file with same name but .md extension
+        base_name = os.path.splitext(original_filename)[0]
+        metadata_filename = f"{base_name}_metadata.md"
+        metadata_path = os.path.join(
+            os.path.dirname(file_path), 
+            metadata_filename
+        )
         
-        print(f"Wrote to {file_path}")
-        return str(file_path)
+        # Write metadata file
+        with open(metadata_path, 'w', encoding='utf-8') as f:
+            f.write(metadata_content)
 
 
-def main():
-    """Main function demonstrating the agent's interaction with the vault"""
-    agent = AgentInterface()
-    
-    print("AI Agent Vault Interface")
-    print("="*50)
-    
-    # Get system summary
-    summary = agent.get_system_summary()
-    print("\nSystem Summary:")
-    print(json.dumps(summary, indent=2))
-    
-    # Update dashboard with system info
-    info_to_add = f"""
-- Inbox has {summary['inbox']['file_count']} files
-- Needs_Action has {summary['needs_action']['file_count']} files
-- Last checked: {summary['timestamp']}
-"""
-    
-    agent.update_dashboard_with_info(info_to_add)
-    
-    # Example of writing a new file to the vault
-    report_content = f"""System Report
-Generated at: {summary['timestamp']}
+# Initialize the skills module
+folder_skills = FolderManagementSkills()
 
-Inbox Status:
-- Files: {summary['inbox']['file_count']}
-- Latest Activity: {summary['inbox']['last_modified']}
 
-Needs Action Status:
-- Files: {summary['needs_action']['file_count']}
-- Latest Activity: {summary['needs_action']['last_modified']}
-"""
-    
-    agent.write_to_vault("system_report.txt", report_content)
-    
-    print("\nDemonstration complete!")
-    print("Check Dashboard.md for updates and system_report.txt for the generated report.")
+def get_registered_skills():
+    """
+    Returns a dictionary of all registered folder management skills
+    """
+    return {
+        "move_file_to_needs_action": folder_skills.move_file_to_needs_action,
+        "move_file_to_done": folder_skills.move_file_to_done,
+        "list_inbox_files": folder_skills.list_inbox_files,
+        "list_needs_action_files": folder_skills.list_needs_action_files,
+        "list_done_files": folder_skills.list_done_files
+    }
 
 
 if __name__ == "__main__":
-    main()
+    print("Folder Management Skills registered and ready!")
+    print("Available skills:")
+    for skill_name in get_registered_skills().keys():
+        print(f"- {skill_name}")
