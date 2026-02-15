@@ -1,0 +1,9 @@
+2026/02/12-22:40:36.411 47c0 Reusing MANIFEST F:\Programing\governor Inititative Program IT\Ai\Hackathon-0\Silver\whatsapp_data\user_data\Default\Local Storage\leveldb/MANIFEST-000001
+2026/02/12-22:40:36.425 47c0 Recovering log #4
+2026/02/12-22:40:36.429 47c0 Reusing old log F:\Programing\governor Inititative Program IT\Ai\Hackathon-0\Silver\whatsapp_data\user_data\Default\Local Storage\leveldb/000004.log 
+2026/02/12-22:59:37.864 298 Level-0 table #8: started
+2026/02/12-22:59:38.004 298 Level-0 table #8: 17015 bytes OK
+2026/02/12-22:59:38.028 298 Delete type=0 #4
+2026/02/12-23:32:38.964 47c0 Level-0 table #10: started
+2026/02/12-23:32:39.013 47c0 Level-0 table #10: 14680 bytes OK
+2026/02/12-23:32:39.040 47c0 Delete type=0 #7
