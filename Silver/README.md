@@ -90,6 +90,7 @@ Congratulations! You've reached the Silver Tier of your AI Agent system. This im
    ```bash
    pip install -r requirements.txt
    pip install schedule
+   pip install python-dotenv
    ```
 
 2. Install Playwright browsers:
@@ -97,12 +98,24 @@ Congratulations! You've reached the Silver Tier of your AI Agent system. This im
    playwright install chromium
    ```
 
-3. Set up Google API credentials (for Gmail watcher):
+3. Set up environment variables:
+   - Copy the `.env` file in the root directory
+   - Update the following variables:
+     ```bash
+     GOOGLE_CLIENT_ID=your_client_id_here
+     GOOGLE_CLIENT_SECRET=your_client_secret_here
+     GMAIL_CREDENTIALS_FILE=credentials.json
+     GMAIL_TOKEN_FILE=token.pickle
+     LINKEDIN_API_KEY=your_linkedin_api_key_here
+     LINKEDIN_API_SECRET=your_linkedin_api_secret_here
+     ```
+
+4. Set up Google API credentials (for Gmail watcher):
    - Go to https://console.cloud.google.com/apis/credentials
    - Create credentials for Gmail API
    - Download the credentials.json file and place it in the root directory
 
-4. Run the complete system:
+5. Run the complete system:
    ```bash
    # Run the scheduler to process requests every 30 minutes
    python scheduler.py
