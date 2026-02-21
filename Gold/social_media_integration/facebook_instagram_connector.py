@@ -399,7 +399,11 @@ def get_facebook_instagram_connection() -> Optional[FacebookInstagramConnector]:
         print("- INSTAGRAM_BUSINESS_ACCOUNT_ID")
         return None
 
-    return FacebookInstagramConnector(access_token, facebook_page_id, instagram_business_account_id)
+    try:
+        return FacebookInstagramConnector(access_token, facebook_page_id, instagram_business_account_id)
+    except Exception as e:
+        print(f"Failed to connect to Facebook/Instagram: {str(e)}")
+        return None
 
 
 if __name__ == "__main__":

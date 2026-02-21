@@ -10,6 +10,13 @@ from whatsapp_watcher import WhatsAppWatcher
 import asyncio
 import os
 from pathlib import Path
+import sys
+import codecs
+
+# Fix Unicode encoding for Windows console
+if sys.platform == 'win32':
+    sys.stdout = codecs.getwriter('utf-8')(sys.stdout.buffer, 'strict')
+    sys.stderr = codecs.getwriter('utf-8')(sys.stderr.buffer, 'strict')
 
 def test_linkedin_poster():
     print("=== Testing LinkedIn Poster ===")
@@ -128,21 +135,21 @@ def test_dashboard():
 
 def main():
     print("Running comprehensive test of Silver Tier integration...\n")
-    
+
     test_linkedin_poster()
     test_reasoning_loop()
     test_agent_interface()
     test_watchers()
     test_dashboard()
-    
+
     print("=== Summary ===")
-    print("✓ DASHBOARD SYNC: Dashboard updated with Watcher status and Live Feed")
-    print("✓ REASONING LOOP VISIBILITY: Plans linked in Dashboard under 'Current Active Plans'")
-    print("✓ HITL INTERFACE: Agent Interface monitors approvals and executes MCP actions")
-    print("✓ SKILLS LOGGING: Watchers log actions to Audit_Log.md")
-    print("✓ HANDBOOK ALIGNMENT: LinkedIn poster validates content against Company Handbook")
-    print("✓ INTEGRATION CONFIRMATION: 'Silver Tier Integration Active' in Dashboard")
-    print("✓ DUPLICATE PREVENTION: Duplicate entries prevented in Dashboard")
+    print("[PASS] DASHBOARD SYNC: Dashboard updated with Watcher status and Live Feed")
+    print("[PASS] REASONING LOOP VISIBILITY: Plans linked in Dashboard under 'Current Active Plans'")
+    print("[PASS] HITL INTERFACE: Agent Interface monitors approvals and executes MCP actions")
+    print("[PASS] SKILLS LOGGING: Watchers log actions to Audit_Log.md")
+    print("[PASS] HANDBOOK ALIGNMENT: LinkedIn poster validates content against Company Handbook")
+    print("[PASS] INTEGRATION CONFIRMATION: 'Silver Tier Integration Active' in Dashboard")
+    print("[PASS] DUPLICATE PREVENTION: Duplicate entries prevented in Dashboard")
     print("\nAll systems are functioning correctly!")
 
 if __name__ == "__main__":

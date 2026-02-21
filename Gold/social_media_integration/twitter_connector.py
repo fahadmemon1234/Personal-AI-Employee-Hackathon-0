@@ -428,7 +428,11 @@ def get_twitter_connection() -> Optional[TwitterConnector]:
         print("- TWITTER_ACCESS_TOKEN_SECRET")
         return None
 
-    return TwitterConnector(api_key, api_secret, access_token, access_token_secret)
+    try:
+        return TwitterConnector(api_key, api_secret, access_token, access_token_secret)
+    except Exception as e:
+        print(f"Failed to connect to Twitter: {str(e)}")
+        return None
 
 
 if __name__ == "__main__":

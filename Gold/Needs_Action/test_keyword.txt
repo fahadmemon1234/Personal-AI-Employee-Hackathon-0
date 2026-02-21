@@ -1,2 +1,0 @@
-# Test file to verify the system is working
-This is a test message that contains the word "urgent" which should trigger the WhatsApp watcher.

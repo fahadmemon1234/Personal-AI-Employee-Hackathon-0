@@ -7,6 +7,11 @@ import time
 import subprocess
 import sys
 from threading import Thread
+from dotenv import load_dotenv
+import os
+
+# Load environment variables from .env file
+load_dotenv()
 
 
 def run_reasoning_loop():
@@ -30,15 +35,19 @@ def run_reasoning_loop():
 
 def run_scheduler():
     """Run the scheduler in the background"""
-    # Schedule the reasoning loop to run every 30 minutes
-    schedule.every(30).minutes.do(run_reasoning_loop)
-    
+    # Get interval from environment (default 30 minutes = 1800 seconds)
+    interval_seconds = int(os.getenv("SCHEDULER_INTERVAL", "1800"))
+    interval_minutes = interval_seconds / 60
+
+    # Schedule the reasoning loop to run every N minutes
+    schedule.every(interval_minutes).minutes.do(run_reasoning_loop)
+
     # Also run once immediately
     run_reasoning_loop()
-    
-    print("Scheduler started. Running reasoning_loop.py every 30 minutes.")
+
+    print(f"Scheduler started. Running reasoning_loop.py every {interval_minutes} minutes.")
     print("Press Ctrl+C to stop the scheduler.")
-    
+
     try:
         while True:
             schedule.run_pending()

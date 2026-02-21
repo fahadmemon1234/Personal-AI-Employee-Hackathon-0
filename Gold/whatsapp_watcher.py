@@ -10,23 +10,29 @@ from datetime import datetime
 from pathlib import Path
 from playwright.async_api import async_playwright
 import re
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 
 class WhatsAppWatcher:
     """Watches WhatsApp Web for specific keywords and saves messages as .md files"""
     
-    def __init__(self, data_dir="whatsapp_data", needs_action_dir="Needs_Action"):
-        self.data_dir = Path(data_dir)
-        self.needs_action_dir = Path(needs_action_dir)
+    def __init__(self, data_dir=None, needs_action_dir=None):
+        self.data_dir = Path(data_dir or os.getenv("WHATSAPP_DATA_DIR", "whatsapp_data"))
+        self.needs_action_dir = Path(needs_action_dir or os.getenv("NEEDS_ACTION_DIR", "Needs_Action"))
         self.browser_context = None
         self.page = None
-        
+        self.monitor_interval = int(os.getenv("WHATSAPP_MONITOR_INTERVAL", "10"))
+
         # Create directories if they don't exist
         self.data_dir.mkdir(exist_ok=True)
         self.needs_action_dir.mkdir(exist_ok=True)
-        
+
         # Keywords to monitor for
-        self.keywords = ['urgent', 'payment', 'help', 'emergency', 'asap', 'important']
+        keywords_str = os.getenv("WHATSAPP_KEYWORDS", "urgent,payment,help,emergency,asap,important")
+        self.keywords = [kw.strip() for kw in keywords_str.split(",")]
     
     async def initialize_browser(self):
         """Initialize the browser with persistent context"""
@@ -154,7 +160,7 @@ class WhatsAppWatcher:
                     print(f"Error processing chat list: {e}")
                 
                 # Wait before checking again
-                await asyncio.sleep(10)
+                await asyncio.sleep(self.monitor_interval)
                 
             except Exception as e:
                 print(f"Error monitoring messages: {e}")

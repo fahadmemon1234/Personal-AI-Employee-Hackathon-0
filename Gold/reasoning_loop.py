@@ -10,16 +10,22 @@ from pathlib import Path
 from datetime import datetime
 import json
 import re
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 
 class ReasoningLoop:
     """Implements the reasoning loop for processing requests in Needs_Action folder"""
 
-    def __init__(self, needs_action_dir="Needs_Action", approved_dir="Approved", completed_dir="Completed", plans_dir="Plans"):
-        self.needs_action_dir = Path(needs_action_dir)
-        self.approved_dir = Path(approved_dir)
-        self.completed_dir = Path(completed_dir)
-        self.plans_dir = Path(plans_dir)
+    def __init__(self, needs_action_dir=None, approved_dir=None, completed_dir=None, plans_dir=None):
+        self.needs_action_dir = Path(needs_action_dir or os.getenv("NEEDS_ACTION_DIR", "Needs_Action"))
+        self.approved_dir = Path(approved_dir or os.getenv("APPROVED_DIR", "Approved"))
+        self.completed_dir = Path(completed_dir or os.getenv("COMPLETED_DIR", "Completed"))
+        self.plans_dir = Path(plans_dir or os.getenv("PLANS_DIR", "Plans"))
+        self.loop_interval = int(os.getenv("REASONING_LOOP_INTERVAL", "10"))
+        self.max_iterations = int(os.getenv("MAX_AUTONOMOUS_ITERATIONS", "5"))
 
         # Create directories if they don't exist
         self.needs_action_dir.mkdir(exist_ok=True)
@@ -29,7 +35,7 @@ class ReasoningLoop:
 
         # Track autonomous loop state
         self.autonomous_iterations = 0
-        self.max_autonomous_iterations = 5
+        self.max_autonomous_iterations = self.max_iterations
         self.task_complete = False
 
     def scan_needs_action(self):
@@ -356,7 +362,7 @@ Generated on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
                     break
                 
                 # Wait before next iteration
-                time.sleep(10)  # Check every 10 seconds
+                time.sleep(self.loop_interval)  # Check every N seconds (from env)
 
             except KeyboardInterrupt:
                 print("\nRalph Wiggum Loop interrupted by user.")
@@ -406,7 +412,7 @@ Generated on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
                     print("No requests in Needs_Action. Waiting...")
 
                 # Wait before next iteration
-                time.sleep(10)  # Check every 10 seconds
+                time.sleep(self.loop_interval)  # Check every N seconds (from env)
 
             except KeyboardInterrupt:
                 print("\nReasoning Loop interrupted by user.")

@@ -2,6 +2,11 @@ import xmlrpc.client
 import json
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional
+import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 
 class OdooConnector:
@@ -229,15 +234,17 @@ def get_odoo_connection():
     """
     Helper function to get Odoo connection using environment variables or config
     """
-    import os
-    
     # These should be configured in a secure way in production
     odoo_url = os.getenv('ODOO_URL', 'http://fahadmemon.odoo.com')
     odoo_db = os.getenv('ODOO_DB', 'FahadMemon')
     odoo_username = os.getenv('ODOO_USERNAME', 'fahadmemon131@gmail.com')
-    odoo_password = os.getenv('ODOO_PASSWORD', 'memonggc1235#Q')
-    
-    return OdooConnector(odoo_url, odoo_db, odoo_username, odoo_password)
+    odoo_password = os.getenv('ODOO_PASSWORD', '')
+
+    try:
+        return OdooConnector(odoo_url, odoo_db, odoo_username, odoo_password)
+    except Exception as e:
+        print(f"Failed to connect to Odoo: {str(e)}")
+        return None
 
 
 if __name__ == "__main__":

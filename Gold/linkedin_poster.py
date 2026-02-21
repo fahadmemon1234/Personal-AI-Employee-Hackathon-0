@@ -1,18 +1,54 @@
 import os
 import json
 import datetime
+import requests
 from pathlib import Path
+from dotenv import load_dotenv
+from linkedin_api_modern import LinkedInAPI
+
+# Load environment variables from .env file
+load_dotenv()
 
 class LinkedInPoster:
     def __init__(self):
-        self.pending_approval_dir = Path("Pending_Approval")
-        self.approved_dir = Path("Approved")
-        self.dashboard_file = "Dashboard.md"
+        self.pending_approval_dir = Path(os.getenv("PENDING_APPROVAL_DIR", "Pending_Approval"))
+        self.approved_dir = Path(os.getenv("APPROVED_DIR", "Approved"))
+        self.dashboard_file = os.getenv("DASHBOARD_FILE", "Dashboard.md")
+        self.post_interval = int(os.getenv("LINKEDIN_POST_INTERVAL", "3600"))
         self.company_handbook_rules = self.load_company_handbook_rules()
+        
+        # Initialize modern LinkedIn API client
+        try:
+            self.linkedin_api = LinkedInAPI()
+        except ValueError as e:
+            print(f"Warning: {e}")
+            self.linkedin_api = None
 
         # Create directories if they don't exist
         self.pending_approval_dir.mkdir(exist_ok=True)
         self.approved_dir.mkdir(exist_ok=True)
+    
+    def post_to_linkedin(self, content):
+        """Post content to LinkedIn using modern OIDC-compliant API"""
+        if not self.linkedin_api:
+            print("LinkedIn API not initialized. Check your credentials in .env")
+            return False
+        
+        # Validate token
+        if not self.linkedin_api.validate_token():
+            print("Invalid or expired access token")
+            print("\nRun 'python linkedin_auth.py' to get a new token")
+            return False
+        
+        # Get user info for logging
+        user_info = self.linkedin_api.get_user_info()
+        if user_info:
+            print(f"Posting as: {user_info.get('name', 'Unknown User')}")
+        
+        # Create the post
+        result = self.linkedin_api.create_text_post(content)
+        
+        return result is not None
 
     def load_company_handbook_rules(self):
         """Load and validate LinkedIn posting rules from Company Handbook"""
@@ -112,9 +148,18 @@ class LinkedInPoster:
             print(f"Non-compliant post moved to: {rejected_path}")
             return False
 
-        # In a real implementation, this would connect to LinkedIn API
-        # For now, we'll simulate posting and log the activity
-        print(f"Executing LinkedIn post: {content[:100]}...")
+        # Post to LinkedIn using the API
+        print(f"Posting to LinkedIn: {content[:100]}...")
+        success = self.post_to_linkedin(content)
+        
+        if not success:
+            print("Failed to post to LinkedIn")
+            # Move to rejected folder
+            rejected_path = Path("Rejected") / post_file.name
+            rejected_path.parent.mkdir(exist_ok=True)
+            post_file.rename(rejected_path)
+            print(f"Failed post moved to: {rejected_path}")
+            return False
 
         # Log the post in Dashboard.md
         self.log_post_in_dashboard(content)
@@ -150,7 +195,15 @@ class LinkedInPoster:
                 print(f"Failed to post (validation error): {post_file.name}")
     
     def schedule_daily_post(self):
-        """Schedule a daily LinkedIn post"""
+        """Schedule a daily LinkedIn post - only if no draft exists today"""
+        # Check if a draft already exists today
+        today = datetime.datetime.now().strftime("%Y%m%d")
+        existing_drafts = list(self.pending_approval_dir.glob(f"linkedin_post_{today}*.txt"))
+        
+        if existing_drafts:
+            print(f"Draft for today already exists: {existing_drafts[0].name}")
+            return
+        
         # Create a draft for today's post
         self.create_draft_post()
 

@@ -10,21 +10,26 @@ from pathlib import Path
 import json
 from email_approval_workflow import ApprovalBasedEmailProcessor
 from linkedin_poster import LinkedInPoster
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 
 class AgentInterface:
     """Interface for handling human approvals and executing corresponding MCP actions"""
 
-    def __init__(self, pending_approval_dir="Pending_Approval", approved_dir="Approved", completed_dir="Completed"):
-        self.pending_approval_dir = Path(pending_approval_dir)
-        self.approved_dir = Path(approved_dir)
-        self.completed_dir = Path(completed_dir)
-        
+    def __init__(self, pending_approval_dir=None, approved_dir=None, completed_dir=None):
+        self.pending_approval_dir = Path(pending_approval_dir or os.getenv("PENDING_APPROVAL_DIR", "Pending_Approval"))
+        self.approved_dir = Path(approved_dir or os.getenv("APPROVED_DIR", "Approved"))
+        self.completed_dir = Path(completed_dir or os.getenv("COMPLETED_DIR", "Completed"))
+        self.monitor_interval = int(os.getenv("APPROVAL_MONITOR_INTERVAL", "5"))
+
         # Create directories if they don't exist
         self.pending_approval_dir.mkdir(exist_ok=True)
         self.approved_dir.mkdir(exist_ok=True)
         self.completed_dir.mkdir(exist_ok=True)
-        
+
         # Initialize processors
         self.email_processor = ApprovalBasedEmailProcessor()
         self.linkedin_poster = LinkedInPoster()
@@ -174,32 +179,33 @@ class AgentInterface:
 
         return processed_count
 
-    def run_approval_monitoring(self, interval=5):
+    def run_approval_monitoring(self, interval=None):
         """Run a continuous monitoring loop for approvals"""
+        check_interval = interval or self.monitor_interval
         print("Starting Agent Interface - Approval Monitoring...")
         print(f"Monitoring: {self.approved_dir} for new approvals")
-        
+
         # Track previously seen files to detect new ones
         previous_approved_files = set()
-        
+
         try:
             while True:
                 current_approved_files = {f.name for f in self.scan_approved_files()}
                 new_approved_files = current_approved_files - previous_approved_files
-                
+
                 if new_approved_files:
                     print(f"New approvals detected: {new_approved_files}")
                     processed_count = self.process_approvals()
                     print(f"Processed {processed_count} new approvals")
-                    
+
                     # Update the list of seen files
                     previous_approved_files = {f.name for f in self.scan_approved_files()}
                 else:
                     # Update the list of seen files if no new ones
                     previous_approved_files = current_approved_files
-                
-                time.sleep(interval)
-                
+
+                time.sleep(check_interval)
+
         except KeyboardInterrupt:
             print("\nApproval monitoring stopped by user.")
 

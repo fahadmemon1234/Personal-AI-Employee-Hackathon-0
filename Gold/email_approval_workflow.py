@@ -14,6 +14,10 @@ from googleapiclient.discovery import build
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import base64
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 
 class EmailSenderWithApproval:
@@ -21,12 +25,12 @@ class EmailSenderWithApproval:
     
     SCOPES = ['https://www.googleapis.com/auth/gmail.send', 'https://www.googleapis.com/auth/gmail.readonly']
     
-    def __init__(self, credentials_file="credentials.json", token_file="token.pickle", approved_dir="Approved"):
-        self.credentials_file = credentials_file
-        self.token_file = token_file
-        self.approved_dir = Path(approved_dir)
+    def __init__(self, credentials_file=None, token_file=None, approved_dir=None):
+        self.credentials_file = credentials_file or os.getenv("GMAIL_CREDENTIALS_FILE", "credentials.json")
+        self.token_file = token_file or os.getenv("GMAIL_TOKEN_FILE", "token.pickle")
+        self.approved_dir = Path(approved_dir or os.getenv("APPROVED_DIR", "Approved"))
         self.service = None
-        
+
         # Create approved directory if it doesn't exist
         self.approved_dir.mkdir(exist_ok=True)
     
@@ -149,11 +153,11 @@ class EmailSenderWithApproval:
 
 class ApprovalBasedEmailProcessor:
     """Processes email requests from Needs_Action only after approval"""
-    
+
     def __init__(self):
         self.email_sender = EmailSenderWithApproval()
-        self.needs_action_dir = Path("Needs_Action")
-        self.approved_dir = Path("Approved")
+        self.needs_action_dir = Path(os.getenv("NEEDS_ACTION_DIR", "Needs_Action"))
+        self.approved_dir = Path(os.getenv("APPROVED_DIR", "Approved"))
         
     def authenticate(self):
         """Authenticate the email sender"""

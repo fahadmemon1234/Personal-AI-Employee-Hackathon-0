@@ -13,6 +13,10 @@ from google.auth.transport.requests import Request
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 import time
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 
 class GmailWatcher:
@@ -20,12 +24,14 @@ class GmailWatcher:
     
     SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
     
-    def __init__(self, credentials_file="credentials.json", token_file="token.pickle"):
-        self.credentials_file = credentials_file
-        self.token_file = token_file
+    def __init__(self, credentials_file=None, token_file=None):
+        # Load from environment variables if not provided
+        self.credentials_file = credentials_file or os.getenv("GMAIL_CREDENTIALS_FILE", "credentials.json")
+        self.token_file = token_file or os.getenv("GMAIL_TOKEN_FILE", "token.pickle")
         self.service = None
-        self.needs_action_path = Path("Needs_Action")
-        
+        self.needs_action_path = Path(os.getenv("NEEDS_ACTION_DIR", "Needs_Action"))
+        self.watch_interval = int(os.getenv("GMAIL_WATCH_INTERVAL", "300"))
+
         # Create Needs_Action directory if it doesn't exist
         self.needs_action_path.mkdir(exist_ok=True)
         
@@ -134,17 +140,17 @@ class GmailWatcher:
         """Save email data as a markdown file in Needs_Action folder"""
         if not email_data:
             return
-            
+
         # Create a safe filename from the subject
         safe_subject = "".join(c for c in email_data['subject'] if c.isalnum() or c in (' ', '-', '_')).rstrip()
         if not safe_subject:
             safe_subject = "email_no_subject"
-        
+
         # Add timestamp to filename to avoid conflicts
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         filename = f"email_{safe_subject}_{timestamp}.md"
         filepath = self.needs_action_path / filename
-        
+
         # Create markdown content
         md_content = f"""# Email from {email_data['sender']}
 
@@ -164,13 +170,18 @@ class GmailWatcher:
 
 *This email was automatically saved by the Gmail Watcher*
 """
-        
+
         # Write the markdown file
         with open(filepath, 'w', encoding='utf-8') as f:
             f.write(md_content)
-        
-        print(f"Saved email '{email_data['subject']}' to {filepath}")
-        
+
+        # Use safe print for Windows console
+        try:
+            print(f"Saved email '{email_data['subject']}' to {filepath}")
+        except UnicodeEncodeError:
+            safe_subject = email_data['subject'].encode('ascii', 'replace').decode('ascii')
+            print(f"Saved email '{safe_subject}' to {filepath}")
+
         # Log the action to Audit_Log.md
         self.log_action(f"Gmail Watcher processed email: {email_data['subject']}")
 
@@ -220,30 +231,39 @@ class GmailWatcher:
                 # Optionally mark as read after processing
                 # self.mark_as_read(msg['id'])
     
-    def start_monitoring(self, interval=300):  # Default to checking every 5 minutes
+    def start_monitoring(self, interval=None):  # Default to checking every 5 minutes
         """Start monitoring for new emails at regular intervals"""
-        print(f"Starting Gmail monitoring (checking every {interval} seconds)")
-        
+        check_interval = interval or self.watch_interval
+        print(f"Starting Gmail monitoring (checking every {check_interval} seconds)")
+
         if not self.authenticate():
             print("Authentication failed. Cannot start monitoring.")
             return
-        
+
         try:
             while True:
                 self.process_new_emails()
-                print(f"Waiting {interval} seconds before next check...")
-                time.sleep(interval)
+                print(f"Waiting {check_interval} seconds before next check...")
+                time.sleep(check_interval)
         except KeyboardInterrupt:
             print("\nStopping Gmail monitoring...")
 
 
 def main():
     """Main function to run the Gmail watcher"""
-    print("Initializing Gmail Watcher...")
+    import sys
+    import codecs
     
+    # Fix Unicode encoding for Windows console
+    if sys.platform == 'win32':
+        sys.stdout = codecs.getwriter('utf-8')(sys.stdout.buffer, 'strict')
+        sys.stderr = codecs.getwriter('utf-8')(sys.stderr.buffer, 'strict')
+    
+    print("Initializing Gmail Watcher...")
+
     # Initialize the watcher
     watcher = GmailWatcher()
-    
+
     # For demonstration, we'll process emails once
     # In a real scenario, you'd call watcher.start_monitoring() to run continuously
     if watcher.authenticate():

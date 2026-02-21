@@ -185,43 +185,49 @@ def generate_business_suggestions(odoo_data, bank_data, bottleneck_data):
 def generate_ceo_briefing():
     """
     Generate the Monday CEO Briefing report
+    Works even without Odoo connection - uses bank transactions as fallback
     """
     try:
         # Get Odoo financial data
+        odoo_data = {
+            "current_month_revenue": 0,
+            "previous_month_revenue": 0,
+            "outstanding_amount": 0,
+            "outstanding_count": 0
+        }
+        
         try:
             odoo_conn = get_odoo_connection()
-            
-            # Get current month revenue
-            current_month_revenue = odoo_conn.get_monthly_revenue(0)
-            
-            # Get last month revenue
-            previous_month_revenue = odoo_conn.get_monthly_revenue(-1)
-            
-            # Get outstanding invoices data
-            outstanding_amount = odoo_conn.get_total_outstanding_invoices()
-            
-            # Get count of outstanding invoices
-            outstanding_invoice_ids = odoo_conn.models.execute_kw(
-                odoo_conn.db, odoo_conn.uid, odoo_conn.password,
-                'account.move', 'search',
-                [[['state', '=', 'posted'], ['payment_state', '!=', 'paid'], ['move_type', '=', 'out_invoice']]]
-            )
-            outstanding_count = len(outstanding_invoice_ids)
-            
-            odoo_data = {
-                "current_month_revenue": current_month_revenue,
-                "previous_month_revenue": previous_month_revenue,
-                "outstanding_amount": outstanding_amount,
-                "outstanding_count": outstanding_count
-            }
+            if odoo_conn:
+                # Get current month revenue
+                current_month_revenue = odoo_conn.get_monthly_revenue(0)
+
+                # Get last month revenue
+                previous_month_revenue = odoo_conn.get_monthly_revenue(-1)
+
+                # Get outstanding invoices data
+                outstanding_amount = odoo_conn.get_total_outstanding_invoices()
+
+                # Get count of outstanding invoices
+                outstanding_invoice_ids = odoo_conn.models.execute_kw(
+                    odoo_conn.db, odoo_conn.uid, odoo_conn.password,
+                    'account.move', 'search',
+                    [[['state', '=', 'posted'], ['payment_state', '!=', 'paid'], ['move_type', '=', 'out_invoice']]]
+                )
+                outstanding_count = len(outstanding_invoice_ids)
+
+                odoo_data = {
+                    "current_month_revenue": current_month_revenue,
+                    "previous_month_revenue": previous_month_revenue,
+                    "outstanding_amount": outstanding_amount,
+                    "outstanding_count": outstanding_count
+                }
+                print(f"Odoo connection successful - retrieved financial data")
+            else:
+                print("Odoo connection failed - using fallback mode (bank transactions only)")
         except Exception as e:
             print(f"Could not connect to Odoo for briefing: {str(e)}")
-            odoo_data = {
-                "current_month_revenue": 0,
-                "previous_month_revenue": 0,
-                "outstanding_amount": 0,
-                "outstanding_count": 0
-            }
+            print("Generating briefing with available data (bank transactions)...")
         
         # Analyze bank transactions
         bank_data = analyze_bank_transactions()
