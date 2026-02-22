@@ -1,6 +1,220 @@
 # AI Agent Dashboard
 
 ## Current Active Plans
+- [Plan_whatsapp_Unknown Chat_20260222_110822_20260222_111043.md](Plans\Plan_whatsapp_Unknown Chat_20260222_110822_20260222_111043.md)
+
+- [Plan_whatsapp_Unknown Chat_20260222_110548_20260222_111043.md](Plans\Plan_whatsapp_Unknown Chat_20260222_110548_20260222_111043.md)
+
+- [Plan_whatsapp_Unknown Chat_20260222_110547_20260222_111043.md](Plans\Plan_whatsapp_Unknown Chat_20260222_110547_20260222_111043.md)
+
+- [Plan_whatsapp_Unknown Chat_20260222_110546_20260222_111043.md](Plans\Plan_whatsapp_Unknown Chat_20260222_110546_20260222_111043.md)
+
+- [Plan_whatsapp_Unknown Chat_20260222_110544_20260222_111043.md](Plans\Plan_whatsapp_Unknown Chat_20260222_110544_20260222_111043.md)
+
+- [Plan_whatsapp_Unknown Chat_20260212_231954_20260222_111043.md](Plans\Plan_whatsapp_Unknown Chat_20260212_231954_20260222_111043.md)
+
+- [Plan_whatsapp_Unknown Chat_20260212_231950_20260222_111043.md](Plans\Plan_whatsapp_Unknown Chat_20260212_231950_20260222_111043.md)
+
+- [Plan_whatsapp_Unknown Chat_20260212_231948_20260222_111043.md](Plans\Plan_whatsapp_Unknown Chat_20260212_231948_20260222_111043.md)
+
+- [Plan_whatsapp_Unknown Chat_20260212_231947_20260222_111042.md](Plans\Plan_whatsapp_Unknown Chat_20260212_231947_20260222_111042.md)
+
+- [Plan_whatsapp_Unknown Chat_20260212_231946_20260222_111042.md](Plans\Plan_whatsapp_Unknown Chat_20260212_231946_20260222_111042.md)
+
+- [Plan_whatsapp_Unknown Chat_20260212_231802_20260222_111042.md](Plans\Plan_whatsapp_Unknown Chat_20260212_231802_20260222_111042.md)
+
+- [Plan_whatsapp_Unknown Chat_20260212_224307_20260222_111042.md](Plans\Plan_whatsapp_Unknown Chat_20260212_224307_20260222_111042.md)
+
+- [Plan_whatsapp_Unknown Chat_20260212_224303_20260222_111042.md](Plans\Plan_whatsapp_Unknown Chat_20260212_224303_20260222_111042.md)
+
+- [Plan_whatsapp_Unknown Chat_20260212_224301_20260222_111042.md](Plans\Plan_whatsapp_Unknown Chat_20260212_224301_20260222_111042.md)
+
+- [Plan_whatsapp_Unknown Chat_20260212_224300_20260222_111042.md](Plans\Plan_whatsapp_Unknown Chat_20260212_224300_20260222_111042.md)
+
+- [Plan_whatsapp_Unknown Chat_20260212_224259_20260222_111042.md](Plans\Plan_whatsapp_Unknown Chat_20260212_224259_20260222_111042.md)
+
+- [Plan_whatsapp_Unknown Chat_20260212_224221_20260222_111042.md](Plans\Plan_whatsapp_Unknown Chat_20260212_224221_20260222_111042.md)
+
+- [Plan_whatsapp_Unknown Chat_20260212_224208_20260222_111042.md](Plans\Plan_whatsapp_Unknown Chat_20260212_224208_20260222_111042.md)
+
+- [Plan_whatsapp_Unknown Chat_20260212_224207_20260222_111042.md](Plans\Plan_whatsapp_Unknown Chat_20260212_224207_20260222_111042.md)
+
+- [Plan_whatsapp_Unknown Chat_20260212_223049_20260222_111042.md](Plans\Plan_whatsapp_Unknown Chat_20260212_223049_20260222_111042.md)
+
+- [Plan_whatsapp_Unknown Chat_20260212_223039_20260222_111042.md](Plans\Plan_whatsapp_Unknown Chat_20260212_223039_20260222_111042.md)
+
+- [Plan_whatsapp_Unknown Chat_20260212_223038_20260222_111042.md](Plans\Plan_whatsapp_Unknown Chat_20260212_223038_20260222_111042.md)
+
+- [Plan_whatsapp_Unknown Chat_20260212_223037_20260222_111042.md](Plans\Plan_whatsapp_Unknown Chat_20260212_223037_20260222_111042.md)
+
+- [Plan_whatsapp_Unknown Chat_20260212_222949_20260222_111042.md](Plans\Plan_whatsapp_Unknown Chat_20260212_222949_20260222_111042.md)
+
+- [Plan_whatsapp_Pakistans First Agentic AI Webinar - Saturday 21st February_20260222_110459_20260222_111042.md](Plans\Plan_whatsapp_Pakistans First Agentic AI Webinar - Saturday 21st February_20260222_110459_20260222_111042.md)
+
+- [Plan_whatsapp_Pakistans First Agentic AI Webinar - Saturday 14th February_20260212_231952_20260222_111042.md](Plans\Plan_whatsapp_Pakistans First Agentic AI Webinar - Saturday 14th February_20260212_231952_20260222_111042.md)
+
+- [Plan_whatsapp_Pakistans First Agentic AI Webinar - Saturday 14th February_20260212_223041_20260222_111042.md](Plans\Plan_whatsapp_Pakistans First Agentic AI Webinar - Saturday 14th February_20260212_223041_20260222_111042.md)
+
+- [Plan_whatsapp_Odoo_20260222_110822_20260222_111042.md](Plans\Plan_whatsapp_Odoo_20260222_110822_20260222_111042.md)
+
+- [Plan_whatsapp_Giaic Students TECH JOB Portal_20260222_110615_20260222_111042.md](Plans\Plan_whatsapp_Giaic Students TECH JOB Portal_20260222_110615_20260222_111042.md)
+
+- [Plan_whatsapp_GIAIC 01 AISpec-Driven Online Hackathon_20260212_231759_20260222_111042.md](Plans\Plan_whatsapp_GIAIC 01 AISpec-Driven Online Hackathon_20260212_231759_20260222_111042.md)
+
+- [Plan_whatsapp_Friday Evening AISpec-Driven Online Hackathon_20260222_110539_20260222_111042.md](Plans\Plan_whatsapp_Friday Evening AISpec-Driven Online Hackathon_20260222_110539_20260222_111042.md)
+
+- [Plan_whatsapp_CMS BS-SWE_09MALE_20260222_110434_20260222_111042.md](Plans\Plan_whatsapp_CMS BS-SWE_09MALE_20260222_110434_20260222_111042.md)
+
+- [Plan_whatsapp_Certified cloud Ai engineeringHyderabad_20260222_110446_20260222_111042.md](Plans\Plan_whatsapp_Certified cloud Ai engineeringHyderabad_20260222_110446_20260222_111042.md)
+
+- [Plan_whatsapp_32 2 616 99 44_20260222_110709_20260222_111042.md](Plans\Plan_whatsapp_32 2 616 99 44_20260222_110709_20260222_111042.md)
+
+- [Plan_whatsapp_32 2 616 99 44_20260222_110708_20260222_111042.md](Plans\Plan_whatsapp_32 2 616 99 44_20260222_110708_20260222_111042.md)
+
+- [Plan_whatsapp_ HouseOfPakistan_20260212_231914_20260222_111042.md](Plans\Plan_whatsapp_ HouseOfPakistan_20260212_231914_20260222_111042.md)
+
+- [Plan_test_keyword_20260222_111042.md](Plans\Plan_test_keyword_20260222_111042.md)
+
+- [Plan_test_file_20260222_111042.md](Plans\Plan_test_file_20260222_111042.md)
+
+- [Plan_test_20260212_002417_20260222_111042.md](Plans\Plan_test_20260212_002417_20260222_111042.md)
+
+- [Plan_test_20260212_002414_20260222_111042.md](Plans\Plan_test_20260212_002414_20260222_111042.md)
+
+- [Plan_test_20260222_111042.md](Plans\Plan_test_20260222_111042.md)
+
+- [Plan_second_test_20260222_111042.md](Plans\Plan_second_test_20260222_111042.md)
+
+- [Plan_notification_whatsapp_alert_20260222_110822_20260222_111042.md](Plans\Plan_notification_whatsapp_alert_20260222_110822_20260222_111042.md)
+
+- [Plan_notification_whatsapp_alert_20260222_110709_20260222_111041.md](Plans\Plan_notification_whatsapp_alert_20260222_110709_20260222_111041.md)
+
+- [Plan_notification_whatsapp_alert_20260222_110708_20260222_111041.md](Plans\Plan_notification_whatsapp_alert_20260222_110708_20260222_111041.md)
+
+- [Plan_notification_whatsapp_alert_20260222_110615_20260222_111041.md](Plans\Plan_notification_whatsapp_alert_20260222_110615_20260222_111041.md)
+
+- [Plan_notification_whatsapp_alert_20260222_110548_20260222_111041.md](Plans\Plan_notification_whatsapp_alert_20260222_110548_20260222_111041.md)
+
+- [Plan_notification_whatsapp_alert_20260222_110547_20260222_111041.md](Plans\Plan_notification_whatsapp_alert_20260222_110547_20260222_111041.md)
+
+- [Plan_notification_whatsapp_alert_20260222_110546_20260222_111041.md](Plans\Plan_notification_whatsapp_alert_20260222_110546_20260222_111041.md)
+
+- [Plan_notification_whatsapp_alert_20260222_110544_20260222_111041.md](Plans\Plan_notification_whatsapp_alert_20260222_110544_20260222_111041.md)
+
+- [Plan_notification_whatsapp_alert_20260222_110539_20260222_111041.md](Plans\Plan_notification_whatsapp_alert_20260222_110539_20260222_111041.md)
+
+- [Plan_notification_whatsapp_alert_20260222_110459_20260222_111041.md](Plans\Plan_notification_whatsapp_alert_20260222_110459_20260222_111041.md)
+
+- [Plan_notification_whatsapp_alert_20260222_110446_20260222_111041.md](Plans\Plan_notification_whatsapp_alert_20260222_110446_20260222_111041.md)
+
+- [Plan_notification_whatsapp_alert_20260222_110434_20260222_111041.md](Plans\Plan_notification_whatsapp_alert_20260222_110434_20260222_111041.md)
+
+- [Plan_notification_whatsapp_alert_20260212_231954_20260222_111041.md](Plans\Plan_notification_whatsapp_alert_20260212_231954_20260222_111041.md)
+
+- [Plan_notification_whatsapp_alert_20260212_231952_20260222_111041.md](Plans\Plan_notification_whatsapp_alert_20260212_231952_20260222_111041.md)
+
+- [Plan_notification_whatsapp_alert_20260212_231950_20260222_111041.md](Plans\Plan_notification_whatsapp_alert_20260212_231950_20260222_111041.md)
+
+- [Plan_notification_whatsapp_alert_20260212_231948_20260222_111041.md](Plans\Plan_notification_whatsapp_alert_20260212_231948_20260222_111041.md)
+
+- [Plan_notification_whatsapp_alert_20260212_231947_20260222_111041.md](Plans\Plan_notification_whatsapp_alert_20260212_231947_20260222_111041.md)
+
+- [Plan_notification_whatsapp_alert_20260212_231946_20260222_111041.md](Plans\Plan_notification_whatsapp_alert_20260212_231946_20260222_111041.md)
+
+- [Plan_notification_whatsapp_alert_20260212_231914_20260222_111041.md](Plans\Plan_notification_whatsapp_alert_20260212_231914_20260222_111041.md)
+
+- [Plan_notification_whatsapp_alert_20260212_231802_20260222_111041.md](Plans\Plan_notification_whatsapp_alert_20260212_231802_20260222_111041.md)
+
+- [Plan_notification_whatsapp_alert_20260212_231759_20260222_111041.md](Plans\Plan_notification_whatsapp_alert_20260212_231759_20260222_111041.md)
+
+- [Plan_notification_whatsapp_alert_20260212_224307_20260222_111041.md](Plans\Plan_notification_whatsapp_alert_20260212_224307_20260222_111041.md)
+
+- [Plan_notification_whatsapp_alert_20260212_224303_20260222_111041.md](Plans\Plan_notification_whatsapp_alert_20260212_224303_20260222_111041.md)
+
+- [Plan_notification_whatsapp_alert_20260212_224301_20260222_111041.md](Plans\Plan_notification_whatsapp_alert_20260212_224301_20260222_111041.md)
+
+- [Plan_notification_whatsapp_alert_20260212_224300_20260222_111041.md](Plans\Plan_notification_whatsapp_alert_20260212_224300_20260222_111041.md)
+
+- [Plan_notification_whatsapp_alert_20260212_224259_20260222_111041.md](Plans\Plan_notification_whatsapp_alert_20260212_224259_20260222_111041.md)
+
+- [Plan_notification_whatsapp_alert_20260212_224221_20260222_111041.md](Plans\Plan_notification_whatsapp_alert_20260212_224221_20260222_111041.md)
+
+- [Plan_notification_whatsapp_alert_20260212_224208_20260222_111041.md](Plans\Plan_notification_whatsapp_alert_20260212_224208_20260222_111041.md)
+
+- [Plan_notification_whatsapp_alert_20260212_224207_20260222_111041.md](Plans\Plan_notification_whatsapp_alert_20260212_224207_20260222_111041.md)
+
+- [Plan_notification_whatsapp_alert_20260212_223049_20260222_111041.md](Plans\Plan_notification_whatsapp_alert_20260212_223049_20260222_111041.md)
+
+- [Plan_notification_whatsapp_alert_20260212_223041_20260222_111041.md](Plans\Plan_notification_whatsapp_alert_20260212_223041_20260222_111041.md)
+
+- [Plan_notification_whatsapp_alert_20260212_223039_20260222_111041.md](Plans\Plan_notification_whatsapp_alert_20260212_223039_20260222_111041.md)
+
+- [Plan_notification_whatsapp_alert_20260212_223038_20260222_111041.md](Plans\Plan_notification_whatsapp_alert_20260212_223038_20260222_111041.md)
+
+- [Plan_notification_whatsapp_alert_20260212_223037_20260222_111041.md](Plans\Plan_notification_whatsapp_alert_20260212_223037_20260222_111041.md)
+
+- [Plan_notification_whatsapp_alert_20260212_222949_20260222_111041.md](Plans\Plan_notification_whatsapp_alert_20260212_222949_20260222_111041.md)
+
+- [Plan_email_your personal best_20260222_110122_20260222_111041.md](Plans\Plan_email_your personal best_20260222_110122_20260222_111041.md)
+
+- [Plan_email_Your Bank Alfalah Account E-Statement - Daily_20260222_110123_20260222_111041.md](Plans\Plan_email_Your Bank Alfalah Account E-Statement - Daily_20260222_110123_20260222_111041.md)
+
+- [Plan_email_Your Bank Alfalah Account E-Statement - Daily_20260212_220739_20260222_111041.md](Plans\Plan_email_Your Bank Alfalah Account E-Statement - Daily_20260212_220739_20260222_111041.md)
+
+- [Plan_email_You have an invitation_20260212_220740_20260222_111041.md](Plans\Plan_email_You have an invitation_20260212_220740_20260222_111041.md)
+
+- [Plan_email_Write with confidence half off_20260218_232711_20260222_111041.md](Plans\Plan_email_Write with confidence half off_20260218_232711_20260222_111041.md)
+
+- [Plan_email_Video Text JavaScript Embroidery and Shadow Solutions_20260212_220740_20260222_111041.md](Plans\Plan_email_Video Text JavaScript Embroidery and Shadow Solutions_20260212_220740_20260222_111041.md)
+
+- [Plan_email_Syed Sheeraz just messaged you_20260218_232711_20260222_111041.md](Plans\Plan_email_Syed Sheeraz just messaged you_20260218_232711_20260222_111041.md)
+
+- [Plan_email_See Mohsins and other peoples connections experience and more_20260222_110121_20260222_111041.md](Plans\Plan_email_See Mohsins and other peoples connections experience and more_20260222_110121_20260222_111041.md)
+
+- [Plan_email_Obsessed_20260218_232708_20260222_111041.md](Plans\Plan_email_Obsessed_20260218_232708_20260222_111041.md)
+
+- [Plan_email_Muhammad Fahad your job alert for jobs in United States has been created_20260222_110123_20260222_111040.md](Plans\Plan_email_Muhammad Fahad your job alert for jobs in United States has been created_20260222_110123_20260222_111040.md)
+
+- [Plan_email_Muhammad Fahad your job alert for Full Stack Developer in United States has been created_20260222_110123_20260222_111040.md](Plans\Plan_email_Muhammad Fahad your job alert for Full Stack Developer in United States has been created_20260222_110123_20260222_111040.md)
+
+- [Plan_email_Muhammad Fahad your job alert for Full Stack Developer in United States has been created_20260222_110122_20260222_111040.md](Plans\Plan_email_Muhammad Fahad your job alert for Full Stack Developer in United States has been created_20260222_110122_20260222_111040.md)
+
+- [Plan_email_Muhammad Fahad your application was sent to US Tech Solutions_20260222_110124_20260222_111040.md](Plans\Plan_email_Muhammad Fahad your application was sent to US Tech Solutions_20260222_110124_20260222_111040.md)
+
+- [Plan_email_Muhammad accepted your invitation explore their network_20260212_220738_20260222_111040.md](Plans\Plan_email_Muhammad accepted your invitation explore their network_20260212_220738_20260222_111040.md)
+
+- [Plan_email_Learn Video Agent from the team that built it_20260212_220740_20260222_111040.md](Plans\Plan_email_Learn Video Agent from the team that built it_20260212_220740_20260222_111040.md)
+
+- [Plan_email_Inside HeyGens 2026 product strategy Executive AMA_20260218_232709_20260222_111040.md](Plans\Plan_email_Inside HeyGens 2026 product strategy Executive AMA_20260218_232709_20260222_111040.md)
+
+- [Plan_email_I want to connect_20260218_232711_20260222_111040.md](Plans\Plan_email_I want to connect_20260218_232711_20260222_111040.md)
+
+- [Plan_email_frontend developer STAFFXPERT LLC - Frontend Developer and more_20260222_110121_20260222_111040.md](Plans\Plan_email_frontend developer STAFFXPERT LLC - Frontend Developer and more_20260222_110121_20260222_111040.md)
+
+- [Plan_email_frontend developer Prolo - Frontend Developer and more_20260212_220739_20260222_111040.md](Plans\Plan_email_frontend developer Prolo - Frontend Developer and more_20260212_220739_20260222_111040.md)
+
+- [Plan_email_frontend developer Onward Search - Frontend Developer and more_20260212_220739_20260222_111040.md](Plans\Plan_email_frontend developer Onward Search - Frontend Developer and more_20260212_220739_20260222_111040.md)
+
+- [Plan_email_frontend developer Digital Auxilius - Frontend Developer UIUX Evening Shift and more_20260212_220739_20260222_111040.md](Plans\Plan_email_frontend developer Digital Auxilius - Frontend Developer UIUX Evening Shift and more_20260212_220739_20260222_111040.md)
+
+- [Plan_email_Final Call 100 Job Offers with Celebal Technologies_20260218_232710_20260222_111040.md](Plans\Plan_email_Final Call 100 Job Offers with Celebal Technologies_20260218_232710_20260222_111040.md)
+
+- [Plan_email_faiza accepted your invitation explore their network_20260218_232712_20260222_111040.md](Plans\Plan_email_faiza accepted your invitation explore their network_20260218_232712_20260222_111040.md)
+
+- [Plan_email_Dont miss conversations in IT Professionals  Agile Lean Scrum  DevOps  Cloud  SaaS  Security  Big Data  GenAI  ChatGPT_20260218_232710_20260222_111040.md](Plans\Plan_email_Dont miss conversations in IT Professionals  Agile Lean Scrum  DevOps  Cloud  SaaS  Security  Big Data  GenAI  ChatGPT_20260218_232710_20260222_111040.md)
+
+- [Plan_email_Creative just messaged you_20260212_220738_20260222_111040.md](Plans\Plan_email_Creative just messaged you_20260212_220738_20260222_111040.md)
+
+- [Plan_email_Boutique Logo Design Ancient Temples and more ideas to search for_20260222_110124_20260222_111040.md](Plans\Plan_email_Boutique Logo Design Ancient Temples and more ideas to search for_20260222_110124_20260222_111040.md)
+
+- [Plan_email_Bank Alfalah  Account Transaction Details  Ref 701386983_20260218_232710_20260222_111040.md](Plans\Plan_email_Bank Alfalah  Account Transaction Details  Ref 701386983_20260218_232710_20260222_111040.md)
+
+- [Plan_email_Arooj accepted your invitation explore their network_20260218_232709_20260222_111040.md](Plans\Plan_email_Arooj accepted your invitation explore their network_20260218_232709_20260222_111040.md)
+
+- [Plan_email_AliExpress Affiliate ProgramHot Picks from Valentines Sale Best-Selling Promotion Items_20260212_220738_20260222_111040.md](Plans\Plan_email_AliExpress Affiliate ProgramHot Picks from Valentines Sale Best-Selling Promotion Items_20260212_220738_20260222_111040.md)
+
+- [Plan_email_AF the hardest part of learning a language isnt what you think it is_20260222_110122_20260222_111040.md](Plans\Plan_email_AF the hardest part of learning a language isnt what you think it is_20260222_110122_20260222_111040.md)
+
 - [Plan_whatsapp_Unknown Chat_20260212_231954_20260219_005630.md](Plans\Plan_whatsapp_Unknown Chat_20260212_231954_20260219_005630.md)
 
 - [Plan_whatsapp_Unknown Chat_20260212_231950_20260219_005630.md](Plans\Plan_whatsapp_Unknown Chat_20260212_231950_20260219_005630.md)

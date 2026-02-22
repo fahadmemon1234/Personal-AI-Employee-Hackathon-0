@@ -84,6 +84,47 @@ Congratulations! You've reached the Silver Tier of your AI Agent system. This im
 - Sets up workflow parameters
 - Centralizes configuration for all services
 
+### 13. Auto LinkedIn Poster (auto_linkedin_poster.py) ⭐ NEW
+- **Automatically monitors** `Approved/` folder for approval
+- **Posts via LinkedIn API** - no browser window opens
+- **Auto re-authenticates** when token expires
+- **Posts all pending posts** sequentially
+- **Zero manual intervention** after approval
+
+### 14. Start Monitor (start_monitor.py) ⭐ NEW
+- Simple wrapper to start the auto-poster monitor
+- Shows current status (token, pending posts, approval)
+- Runs continuously in background
+
+## Quick Start - Auto LinkedIn Posting
+
+**Jab approval mile, automatically posts honge!**
+
+1. **Start the monitor** (background mein):
+   ```bash
+   python start_monitor.py
+   ```
+
+2. **Jab approval mile**, bas `Approved/` folder mein koi file create karein:
+   ```bash
+   echo approved > Approved/approve.txt
+   ```
+
+3. **Automatic process**:
+   - ✅ Monitor approval detect karega
+   - ✅ Token expire ho to auto re-authenticate hoga
+   - ✅ Saare pending posts LinkedIn par honge
+   - ✅ Koi browser window nahi khulega
+   - ✅ Dashboard update ho jayega
+
+**Commands:**
+```bash
+python auto_linkedin_poster.py --status     # Check current status
+python auto_linkedin_poster.py --once       # Check once for approval
+python auto_linkedin_poster.py --post-now   # Post immediately (bypass approval)
+python start_monitor.py                     # Start continuous monitoring
+```
+
 ## Setup Instructions
 
 1. Install dependencies:

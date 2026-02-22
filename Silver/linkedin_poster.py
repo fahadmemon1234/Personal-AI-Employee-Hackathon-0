@@ -157,10 +157,10 @@ class LinkedInPoster:
 
 def main():
     poster = LinkedInPoster()
-    
+
     # Check for any approved posts to execute
     poster.check_for_approved_posts()
-    
+
     # Create a new daily draft post
     poster.schedule_daily_post()
 
