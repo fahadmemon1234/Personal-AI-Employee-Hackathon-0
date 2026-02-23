@@ -4,12 +4,12 @@ Congratulations! You've reached the Silver Tier of your AI Agent system. This im
 
 ## Silver Tier Milestones Achieved
 
-✅ **Agent Skills Conversion**: All automation logic (Gmail, WhatsApp, LinkedIn) converted into official 'Agent Skills'
-✅ **LinkedIn Sales Automation**: Skill to 'Generate and Post LinkedIn Content' analyzes business goals and drafts sales-generating posts
+✅ **Agent Skills Conversion**: All automation logic (Gmail, WhatsApp) converted into official 'Agent Skills'
 ✅ **Basic Scheduling**: Python-based scheduler runs reasoning_loop.py every 30 minutes
-✅ **HITL Validation**: Verified that no email or social post is sent without approval from /Pending_Approval to /Approved
+✅ **HITL Validation**: Verified that no email is sent without approval from /Pending_Approval to /Approved
 ✅ **Multi-Watcher Support**: Comprehensive monitoring of Gmail, WhatsApp, and Inbox with unified processing
-✅ **Enhanced Automation**: Automated LinkedIn posting, email processing, and social media engagement
+✅ **Enhanced Automation**: Automated email processing and social media engagement
+✅ **Plan Generation**: Automatically creates action plans in `Plans/` directory for all requests
 
 ## Quick Start
 
@@ -21,12 +21,17 @@ pip install -r requirements.txt
 playwright install
 ```
 
-### 2. Start MCP Servers
+### 2. Create Required Directories
+```bash
+mkdir Inbox Needs_Action Approved Completed Plans Pending_Approval Sent
+```
+
+### 3. Start MCP Servers
 ```bash
 python start_mcp_servers.py
 ```
 
-### 3. Start the Scheduler (runs every 30 mins)
+### 4. Start the Scheduler (runs every 30 mins)
 ```bash
 python scheduler.py
 ```
@@ -78,45 +83,26 @@ python scheduler.py
 - Only sends emails after approval is granted
 - Moves processed requests to `/Completed` folder
 
-### 8. LinkedIn Poster (linkedin_poster.py)
-- Generates daily LinkedIn updates about AI services
-- Creates draft posts in `/Pending_Approval` before posting
-- Executes posts when moved to `/Approved` directory
-- Logs all LinkedIn activity in `Dashboard.md`
-
-### 9. Agent Skills Framework
+### 8. Agent Skills Framework
 - **Gmail Skill** (`.qwen/skills/gmail_skill/`): Monitors Gmail for new emails and processes them
 - **WhatsApp Skill** (`.qwen/skills/whatsapp_skill/`): Monitors WhatsApp for new messages and processes them
-- **LinkedIn Skill** (`.qwen/skills/linkedin_skill/`): Generates and posts LinkedIn content for sales
 
-### 10. Scheduler (scheduler.py)
+### 9. Scheduler (scheduler.py)
 - Python-based scheduler that runs reasoning_loop.py every 30 minutes
 - Ensures continuous monitoring and processing of requests
 - Handles timeouts and error recovery
 
-### 11. Agent Interface (agent_interface.py)
+### 10. Agent Interface (agent_interface.py)
 - Coordinates all agent skills
 - Enforces HITL validation
 - Validates that no actions are taken without proper approval
 - Monitors for approved items and executes them
 
-### 12. MCP Configuration (mcp.json)
+### 11. MCP Configuration (mcp.json)
 - Configures email-mcp and browser-mcp servers
 - Defines server capabilities and settings
 - Sets up workflow parameters
 - Centralizes configuration for all services
-
-### 13. Auto LinkedIn Poster (auto_linkedin_poster.py) ⭐ NEW
-- **Automatically monitors** `Approved/` folder for approval
-- **Posts via LinkedIn API** - no browser window opens
-- **Auto re-authenticates** when token expires
-- **Posts all pending posts** sequentially
-- **Zero manual intervention** after approval
-
-### 14. Start Monitor (start_monitor.py) ⭐ NEW
-- Simple wrapper to start the auto-poster monitor
-- Shows current status (token, pending posts, approval)
-- Runs continuously in background
 
 ## Configuration
 
@@ -126,8 +112,6 @@ GOOGLE_CLIENT_ID=your_client_id_here
 GOOGLE_CLIENT_SECRET=your_client_secret_here
 GMAIL_CREDENTIALS_FILE=credentials.json
 GMAIL_TOKEN_FILE=token.pickle
-LINKEDIN_API_KEY=your_linkedin_api_key_here
-LINKEDIN_API_SECRET=your_linkedin_api_secret_here
 ```
 
 ### Required Credentials
@@ -137,51 +121,34 @@ LINKEDIN_API_SECRET=your_linkedin_api_secret_here
    - Create OAuth 2.0 credentials for Gmail API
    - Download `credentials.json` and place it in the root directory
 
-2. **LinkedIn API** (for auto-posting):
-   - Register your app at https://www.linkedin.com/developers/apps
-   - Add API key and secret to `.env` file
-
 ## Running Individual Components
 
 | Component | Command | Description |
 |-----------|---------|-------------|
 | MCP Servers | `python start_mcp_servers.py` | Starts Email (8080) + Browser (8081) servers |
 | Scheduler | `python scheduler.py` | Runs reasoning loop every 30 minutes |
-| Inbox Watcher | `python watcher.py` | Monitors `/Inbox` folder |
+| Inbox Watcher | `python watcher.py` | Monitors `/Inbox` folder (file watcher) |
 | Gmail Watcher | `python gmail_watcher.py` | Monitors Gmail for new emails |
 | WhatsApp Watcher | `python whatsapp_watcher.py` | Monitors WhatsApp Web for keywords |
-| Reasoning Loop | `python reasoning_loop.py` | Processes requests with HITL |
-| LinkedIn Poster | `python linkedin_poster.py` | Generates LinkedIn posts |
+| Reasoning Loop | `python reasoning_loop.py` | Processes requests, creates plans |
 | Email Approval | `python email_approval_workflow.py` | Handles email approval workflow |
 | Agent Interface | `python agent_interface.py` | Coordinates all agent skills |
-| Auto LinkedIn Monitor | `python start_monitor.py` | Auto-posts approved LinkedIn content |
 
-## Auto LinkedIn Posting
+## Verification & Testing
 
-**Zero manual intervention after approval!**
-
-1. **Start the monitor**:
-   ```bash
-   python start_monitor.py
-   ```
-
-2. **Approve posts** by creating a file in `Approved/`:
-   ```bash
-   echo approved > Approved/approve.txt
-   ```
-
-3. **System automatically**:
-   - ✅ Detects approval
-   - ✅ Re-authenticates if token expired
-   - ✅ Posts all pending content to LinkedIn
-   - ✅ Updates dashboard
-
-**Commands**:
+Test individual components:
 ```bash
-python auto_linkedin_poster.py --status     # Check current status
-python auto_linkedin_poster.py --once       # Check once for approval
-python auto_linkedin_poster.py --post-now   # Post immediately (bypass approval)
-python start_monitor.py                     # Start continuous monitoring
+# Test module imports
+python -c "import watcher; print('OK')"
+python -c "import reasoning_loop; print('OK')"
+python -c "import gmail_watcher; print('OK')"
+python -c "import whatsapp_watcher; print('OK')"
+
+# Test reasoning loop (creates plans for all files in Needs_Action)
+python reasoning_loop.py
+
+# Check created plans
+dir Plans
 ```
 
 ## Directory Structure
@@ -192,7 +159,6 @@ python start_monitor.py                     # Start continuous monitoring
 ├── gmail_watcher.py         # Python script that monitors Gmail
 ├── whatsapp_watcher.py      # Python script that monitors WhatsApp Web
 ├── reasoning_loop.py        # Implements reasoning loop for requests
-├── linkedin_poster.py       # Generates and posts LinkedIn content
 ├── email_approval_workflow.py # Handles email sending with approval workflow
 ├── scheduler.py             # Runs reasoning_loop.py every 30 minutes
 ├── agent_interface.py       # Coordinates all agent skills
@@ -203,17 +169,13 @@ python start_monitor.py                     # Start continuous monitoring
 │       ├── gmail_skill/
 │       │   ├── SKILL.md     # Gmail skill documentation
 │       │   └── gmail_skill.py # Gmail skill implementation
-│       ├── whatsapp_skill/
-│       │   ├── SKILL.md     # WhatsApp skill documentation
-│       │   └── whatsapp_skill.py # WhatsApp skill implementation
-│       └── linkedin_skill/
-│           ├── SKILL.md     # LinkedIn skill documentation
-│           └── linkedin_skill.py # LinkedIn skill implementation
+│       └── whatsapp_skill/
+│           ├── SKILL.md     # WhatsApp skill documentation
+│           └── whatsapp_skill.py # WhatsApp skill implementation
 ├── Inbox/                  # Folder monitored by the watcher
 ├── Needs_Action/           # Destination for files moved by watcher
 ├── Pending_Approval/       # Directory for items awaiting approval
 ├── Approved/               # Directory for approved items
-├── Posted/                 # Directory for executed LinkedIn posts
 ├── Sent/                   # Directory for sent emails
 ├── Plans/                  # Directory for generated action plans
 ├── Completed/              # Directory for completed requests
@@ -222,14 +184,42 @@ python start_monitor.py                     # Start continuous monitoring
 
 ## Usage
 
-1. **Basic Operation**: Place files in `Inbox/` to be processed automatically
-2. **Email Monitoring**: Configure Gmail credentials for automatic email monitoring
-3. **WhatsApp Monitoring**: Log in to WhatsApp Web once, then monitor for keywords
-4. **Request Processing**: Reasoning loop creates plans for items in `Needs_Action/`
-5. **Approval Workflow**: Move files from `Pending_Approval/` to `Approved/` to approve
-6. **LinkedIn Posts**: Drafts created in `Pending_Approval/`, move to `Approved/` to post
-7. **Check Logs**: Review `watcher_log.txt` and `Dashboard.md` for activity records
-8. **Update Dashboard**: Update `Dashboard.md` with current information as needed
+### Basic Workflow
+
+1. **Place files in `Inbox/`** - Files are automatically moved to `Needs_Action/` by watcher
+2. **Reasoning Loop processes** - Creates action plans in `Plans/` for each request
+3. **Review plans** - Check generated plans in `Plans/` directory
+4. **Approve actions** - Move approval files to `Approved/` to execute actions
+5. **Check results** - Completed items moved to `Completed/`
+
+### Email Monitoring Setup
+
+1. Create Google Cloud project and enable Gmail API
+2. Download OAuth 2.0 credentials as `credentials.json`
+3. Place `credentials.json` in project root
+4. Run `python gmail_watcher.py` to authenticate
+5. Token saved as `token.pickle` for future use
+
+### WhatsApp Monitoring Setup
+
+1. Run `python whatsapp_watcher.py`
+2. Scan QR code if prompted (one-time only)
+3. Session saved in `whatsapp_data/` for future use
+4. Monitors for keywords: urgent, payment, help, emergency, asap, important
+
+### Approval Workflow
+
+1. Sensitive actions create drafts in `Pending_Approval/`
+2. Review and move approval file to `Approved/`
+3. Agent interface executes the approved action
+4. Completed items moved to `Completed/`
+
+## Logs & Monitoring
+
+- **watcher_log.txt** - File movement logs
+- **Audit_Log.md** - System activity audit trail
+- **Dashboard.md** - Current status and active plans
+- **Plans/** - Generated action plans
 
 ## MCP Servers
 
@@ -269,9 +259,17 @@ playwright install --force
 ### Gmail Authentication
 Delete `token.pickle` and re-run `gmail_watcher.py` to re-authenticate.
 
-### LinkedIn Token Expired
-The auto_linkedin_poster automatically re-authenticates when token expires.
+### WhatsApp Session Issues
+Delete `whatsapp_data/` folder and re-run `whatsapp_watcher.py` to re-authenticate.
+
+### No Files in Needs_Action
+Ensure `Inbox/` directory exists and watcher.py is running.
+
+### Plans Not Being Created
+Run `python reasoning_loop.py` manually to verify it can access `Needs_Action/` directory.
 
 ---
 
 **Need Help?** Check `Dashboard.md` for system status and `Audit_Log.md` for activity history.
+
+**Tested On:** Windows 11, Python 3.13, Playwright 1.58.0
