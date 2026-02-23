@@ -9,7 +9,6 @@ import time
 from pathlib import Path
 import json
 from email_approval_workflow import ApprovalBasedEmailProcessor
-from linkedin_poster import LinkedInPoster
 
 
 class AgentInterface:
@@ -27,7 +26,6 @@ class AgentInterface:
         
         # Initialize processors
         self.email_processor = ApprovalBasedEmailProcessor()
-        self.linkedin_poster = LinkedInPoster()
 
     def scan_approved_files(self):
         """Scan the Approved directory for newly approved files"""
@@ -52,10 +50,6 @@ class AgentInterface:
         if 'email' in file_name or 'email' in content or '@' in content:
             return 'email'
 
-        # Check for LinkedIn-related indicators
-        elif 'linkedin' in file_name or 'post' in file_name or 'linkedin' in content:
-            return 'linkedin'
-
         # Default to email if uncertain
         else:
             return 'email'
@@ -66,8 +60,6 @@ class AgentInterface:
 
         if action_type == 'email':
             return self.execute_email_action(approved_file)
-        elif action_type == 'linkedin':
-            return self.execute_linkedin_action(approved_file)
         else:
             print(f"Unknown action type for file: {approved_file.name}")
             return False
@@ -104,41 +96,6 @@ class AgentInterface:
                 return False
         except Exception as e:
             print(f"Error executing email action: {e}")
-            return False
-
-    def execute_linkedin_action(self, approved_file):
-        """Execute LinkedIn posting action"""
-        print(f"Executing LinkedIn action for: {approved_file.name}")
-        
-        try:
-            # Read the content to get the post text
-            with open(approved_file, 'r', encoding='utf-8') as f:
-                content = f.read()
-            
-            # Extract the post content (assuming the first few lines are the post)
-            lines = content.split('\n')
-            post_content = ""
-            for line in lines:
-                if line.strip() and not line.startswith('Original Request:') and not line.startswith('Draft:'):
-                    post_content += line + " "
-            
-            post_content = post_content.strip()
-            
-            if post_content:
-                # Post to LinkedIn
-                success = self.linkedin_poster.post_to_linkedin(post_content)
-                
-                # Move the approved file to completed
-                completed_path = self.completed_dir / approved_file.name
-                approved_file.rename(completed_path)
-                
-                return success
-            else:
-                print("No post content found in approved file")
-                return False
-                
-        except Exception as e:
-            print(f"Error executing LinkedIn action: {e}")
             return False
 
     def find_corresponding_pending_file(self, approved_file):

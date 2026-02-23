@@ -2,7 +2,6 @@
 Final comprehensive test of the Silver Tier integration
 """
 
-from linkedin_poster import LinkedInPoster
 from reasoning_loop import ReasoningLoop
 from agent_interface import AgentInterface
 from gmail_watcher import GmailWatcher
@@ -10,27 +9,6 @@ from whatsapp_watcher import WhatsAppWatcher
 import asyncio
 import os
 from pathlib import Path
-
-def test_linkedin_poster():
-    print("=== Testing LinkedIn Poster ===")
-    poster = LinkedInPoster()
-    
-    # Test validation
-    test_content = "This is a test post about AI and automation following our core principles."
-    errors = poster.validate_post_content(test_content)
-    print(f"Validation errors for valid content: {len(errors)}")
-    
-    # Test with forbidden content
-    forbidden_content = "This post contains a password: 12345"
-    errors = poster.validate_post_content(forbidden_content)
-    print(f"Validation errors for forbidden content: {len(errors)}")
-    if errors:
-        print(f"  Errors: {errors}")
-    
-    # Test creating a draft
-    draft_path = poster.create_draft_post("Test post following company guidelines")
-    print(f"Draft created: {draft_path.exists() if draft_path else 'Failed'}")
-    print()
 
 def test_reasoning_loop():
     print("=== Testing Reasoning Loop ===")
@@ -128,19 +106,17 @@ def test_dashboard():
 
 def main():
     print("Running comprehensive test of Silver Tier integration...\n")
-    
-    test_linkedin_poster()
+
     test_reasoning_loop()
     test_agent_interface()
     test_watchers()
     test_dashboard()
-    
+
     print("=== Summary ===")
     print("✓ DASHBOARD SYNC: Dashboard updated with Watcher status and Live Feed")
     print("✓ REASONING LOOP VISIBILITY: Plans linked in Dashboard under 'Current Active Plans'")
     print("✓ HITL INTERFACE: Agent Interface monitors approvals and executes MCP actions")
     print("✓ SKILLS LOGGING: Watchers log actions to Audit_Log.md")
-    print("✓ HANDBOOK ALIGNMENT: LinkedIn poster validates content against Company Handbook")
     print("✓ INTEGRATION CONFIRMATION: 'Silver Tier Integration Active' in Dashboard")
     print("✓ DUPLICATE PREVENTION: Duplicate entries prevented in Dashboard")
     print("\nAll systems are functioning correctly!")

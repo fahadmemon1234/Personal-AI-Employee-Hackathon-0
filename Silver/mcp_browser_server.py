@@ -183,56 +183,17 @@ class MCPBrowserServer:
                 return {"success": False, "error": "Browser not available"}
 
         try:
-            if platform.lower() == 'linkedin':
-                # Navigate to LinkedIn
-                await self.page.goto('https://www.linkedin.com', timeout=30000)
-                await asyncio.sleep(3)  # Wait for page to load
-                
-                # Check if logged in (simplified check)
-                is_logged_in = 'feed' in self.page.url.lower() or 'mynetwork' in self.page.url.lower()
-                
-                if not is_logged_in:
-                    return {
-                        "success": False,
-                        "error": "Not logged in to LinkedIn. Please log in manually.",
-                        "login_url": "https://www.linkedin.com/login"
-                    }
-                
-                # For security, we don't automate posting without explicit user action
-                # Instead, save the post content for manual review
-                post_file = self.scraped_dir / f"linkedin_post_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md"
-                
-                with open(post_file, 'w', encoding='utf-8') as f:
-                    f.write(f"# LinkedIn Post Draft\n\n")
-                    f.write(f"**Platform:** LinkedIn\n")
-                    f.write(f"**Created:** {datetime.now().isoformat()}\n\n")
-                    f.write(f"## Post Content\n\n{content}\n\n")
-                    f.write(f"\n**Status:** Ready for manual posting\n")
-                    f.write(f"**Instructions:**\n")
-                    f.write(f"1. Go to https://www.linkedin.com\n")
-                    f.write(f"2. Click 'Start a post'\n")
-                    f.write(f"3. Copy and paste the content above\n")
-                    f.write(f"4. Review and post\n")
-                
-                return {
-                    "success": True,
-                    "platform": platform,
-                    "message": "Post draft created (manual posting required for security)",
-                    "draft_file": str(post_file),
-                    "content": content
-                }
-                
-            elif platform.lower() == 'twitter' or platform.lower() == 'x':
+            if platform.lower() == 'twitter' or platform.lower() == 'x':
                 # Similar approach for Twitter/X
                 post_file = self.scraped_dir / f"twitter_post_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md"
-                
+
                 with open(post_file, 'w', encoding='utf-8') as f:
                     f.write(f"# Twitter/X Post Draft\n\n")
                     f.write(f"**Platform:** Twitter/X\n")
                     f.write(f"**Created:** {datetime.now().isoformat()}\n\n")
                     f.write(f"## Post Content\n\n{content}\n\n")
                     f.write(f"\n**Status:** Ready for manual posting\n")
-                
+
                 return {
                     "success": True,
                     "platform": platform,
@@ -241,7 +202,7 @@ class MCPBrowserServer:
                 }
             else:
                 return {"success": False, "error": f"Unsupported platform: {platform}"}
-                
+
         except Exception as e:
             return {"success": False, "error": str(e)}
 

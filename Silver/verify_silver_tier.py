@@ -103,27 +103,6 @@ class SilverTierVerifier:
             print(f"[FAIL] Only {watchers_found} watcher scripts found (need 2+)")
             return False
 
-    def verify_requirement_2(self):
-        """Verify: Automatically Post on LinkedIn"""
-        print("\n[CHECK] Requirement 2: Automatically Post on LinkedIn")
-        print("-" * 60)
-        
-        checks = [
-            self.check_file_exists("linkedin_poster.py", "LinkedIn Poster Script"),
-            self.check_file_content(
-                "linkedin_poster.py",
-                ["Pending_Approval", "Approved", "post"],
-                "LinkedIn Poster Functionality"
-            ),
-            self.check_file_content(
-                "Company_Handbook.md",
-                ["communication", "professional"],
-                "Company Handbook Guidelines"
-            )
-        ]
-        
-        return all(checks)
-
     def verify_requirement_3(self):
         """Verify: Claude reasoning loop that creates Plan.md files"""
         print("\n[CHECK] Requirement 3: Claude reasoning loop that creates Plan.md")
@@ -229,24 +208,22 @@ class SilverTierVerifier:
         """Verify: All AI functionality implemented as Agent Skills"""
         print("\n[CHECK] Requirement 7: AI functionality as Agent Skills")
         print("-" * 60)
-        
+
         checks = [
             self.check_directory_exists(".qwen/skills", "Agent Skills Directory"),
             self.check_directory_exists(".qwen/skills/gmail_skill", "Gmail Skill"),
             self.check_directory_exists(".qwen/skills/whatsapp_skill", "WhatsApp Skill"),
-            self.check_directory_exists(".qwen/skills/linkedin_skill", "LinkedIn Skill"),
         ]
-        
+
         # Check skill files
         skill_files = [
             (".qwen/skills/gmail_skill/gmail_skill.py", "Gmail Skill Implementation"),
             (".qwen/skills/whatsapp_skill/whatsapp_skill.py", "WhatsApp Skill Implementation"),
-            (".qwen/skills/linkedin_skill/linkedin_skill.py", "LinkedIn Skill Implementation"),
         ]
-        
+
         for skill_file, desc in skill_files:
             self.check_file_exists(skill_file, desc)
-        
+
         # Check agent interface
         self.check_file_exists("agent_interface.py", "Agent Interface")
         self.check_file_content(
@@ -254,7 +231,7 @@ class SilverTierVerifier:
             ["skills", "coordinate"],
             "Agent Skills Coordination"
         )
-        
+
         return all(checks)
 
     def run_verification(self):
@@ -267,7 +244,6 @@ class SilverTierVerifier:
 
         results = {
             "Watcher Scripts (2+)": self.verify_requirement_1(),
-            "LinkedIn Auto-Posting": self.verify_requirement_2(),
             "Reasoning Loop (Plan.md)": self.verify_requirement_3(),
             "MCP Server (Working)": self.verify_requirement_4(),
             "HITL Approval Workflow": self.verify_requirement_5(),

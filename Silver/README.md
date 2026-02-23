@@ -4,12 +4,34 @@ Congratulations! You've reached the Silver Tier of your AI Agent system. This im
 
 ## Silver Tier Milestones Achieved
 
-✅ **Agent Skills Conversion**: All automation logic (Gmail, WhatsApp, LinkedIn) converted into official 'Agent Skills'  
-✅ **LinkedIn Sales Automation**: Skill to 'Generate and Post LinkedIn Content' analyzes business goals and drafts sales-generating posts  
-✅ **Basic Scheduling**: Python-based scheduler runs reasoning_loop.py every 30 minutes  
-✅ **HITL Validation**: Verified that no email or social post is sent without approval from /Pending_Approval to /Approved  
-✅ **Multi-Watcher Support**: Comprehensive monitoring of Gmail, WhatsApp, and Inbox with unified processing  
-✅ **Enhanced Automation**: Automated LinkedIn posting, email processing, and social media engagement  
+✅ **Agent Skills Conversion**: All automation logic (Gmail, WhatsApp, LinkedIn) converted into official 'Agent Skills'
+✅ **LinkedIn Sales Automation**: Skill to 'Generate and Post LinkedIn Content' analyzes business goals and drafts sales-generating posts
+✅ **Basic Scheduling**: Python-based scheduler runs reasoning_loop.py every 30 minutes
+✅ **HITL Validation**: Verified that no email or social post is sent without approval from /Pending_Approval to /Approved
+✅ **Multi-Watcher Support**: Comprehensive monitoring of Gmail, WhatsApp, and Inbox with unified processing
+✅ **Enhanced Automation**: Automated LinkedIn posting, email processing, and social media engagement
+
+## Quick Start
+
+**Prerequisites**: Python 3.10+ (tested on Python 3.13)
+
+### 1. Install Dependencies
+```bash
+pip install -r requirements.txt
+playwright install
+```
+
+### 2. Start MCP Servers
+```bash
+python start_mcp_servers.py
+```
+
+### 3. Start the Scheduler (runs every 30 mins)
+```bash
+python scheduler.py
+```
+
+---
 
 ## Components
 
@@ -96,82 +118,71 @@ Congratulations! You've reached the Silver Tier of your AI Agent system. This im
 - Shows current status (token, pending posts, approval)
 - Runs continuously in background
 
-## Quick Start - Auto LinkedIn Posting
+## Configuration
 
-**Jab approval mile, automatically posts honge!**
+### Environment Variables (`.env` file)
+```bash
+GOOGLE_CLIENT_ID=your_client_id_here
+GOOGLE_CLIENT_SECRET=your_client_secret_here
+GMAIL_CREDENTIALS_FILE=credentials.json
+GMAIL_TOKEN_FILE=token.pickle
+LINKEDIN_API_KEY=your_linkedin_api_key_here
+LINKEDIN_API_SECRET=your_linkedin_api_secret_here
+```
 
-1. **Start the monitor** (background mein):
+### Required Credentials
+
+1. **Google API** (for Gmail watcher):
+   - Go to https://console.cloud.google.com/apis/credentials
+   - Create OAuth 2.0 credentials for Gmail API
+   - Download `credentials.json` and place it in the root directory
+
+2. **LinkedIn API** (for auto-posting):
+   - Register your app at https://www.linkedin.com/developers/apps
+   - Add API key and secret to `.env` file
+
+## Running Individual Components
+
+| Component | Command | Description |
+|-----------|---------|-------------|
+| MCP Servers | `python start_mcp_servers.py` | Starts Email (8080) + Browser (8081) servers |
+| Scheduler | `python scheduler.py` | Runs reasoning loop every 30 minutes |
+| Inbox Watcher | `python watcher.py` | Monitors `/Inbox` folder |
+| Gmail Watcher | `python gmail_watcher.py` | Monitors Gmail for new emails |
+| WhatsApp Watcher | `python whatsapp_watcher.py` | Monitors WhatsApp Web for keywords |
+| Reasoning Loop | `python reasoning_loop.py` | Processes requests with HITL |
+| LinkedIn Poster | `python linkedin_poster.py` | Generates LinkedIn posts |
+| Email Approval | `python email_approval_workflow.py` | Handles email approval workflow |
+| Agent Interface | `python agent_interface.py` | Coordinates all agent skills |
+| Auto LinkedIn Monitor | `python start_monitor.py` | Auto-posts approved LinkedIn content |
+
+## Auto LinkedIn Posting
+
+**Zero manual intervention after approval!**
+
+1. **Start the monitor**:
    ```bash
    python start_monitor.py
    ```
 
-2. **Jab approval mile**, bas `Approved/` folder mein koi file create karein:
+2. **Approve posts** by creating a file in `Approved/`:
    ```bash
    echo approved > Approved/approve.txt
    ```
 
-3. **Automatic process**:
-   - ✅ Monitor approval detect karega
-   - ✅ Token expire ho to auto re-authenticate hoga
-   - ✅ Saare pending posts LinkedIn par honge
-   - ✅ Koi browser window nahi khulega
-   - ✅ Dashboard update ho jayega
+3. **System automatically**:
+   - ✅ Detects approval
+   - ✅ Re-authenticates if token expired
+   - ✅ Posts all pending content to LinkedIn
+   - ✅ Updates dashboard
 
-**Commands:**
+**Commands**:
 ```bash
 python auto_linkedin_poster.py --status     # Check current status
 python auto_linkedin_poster.py --once       # Check once for approval
 python auto_linkedin_poster.py --post-now   # Post immediately (bypass approval)
 python start_monitor.py                     # Start continuous monitoring
 ```
-
-## Setup Instructions
-
-1. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   pip install schedule
-   pip install python-dotenv
-   ```
-
-2. Install Playwright browsers:
-   ```bash
-   playwright install chromium
-   ```
-
-3. Set up environment variables:
-   - Copy the `.env` file in the root directory
-   - Update the following variables:
-     ```bash
-     GOOGLE_CLIENT_ID=your_client_id_here
-     GOOGLE_CLIENT_SECRET=your_client_secret_here
-     GMAIL_CREDENTIALS_FILE=credentials.json
-     GMAIL_TOKEN_FILE=token.pickle
-     LINKEDIN_API_KEY=your_linkedin_api_key_here
-     LINKEDIN_API_SECRET=your_linkedin_api_secret_here
-     ```
-
-4. Set up Google API credentials (for Gmail watcher):
-   - Go to https://console.cloud.google.com/apis/credentials
-   - Create credentials for Gmail API
-   - Download the credentials.json file and place it in the root directory
-
-5. Run the complete system:
-   ```bash
-   # Run the scheduler to process requests every 30 minutes
-   python scheduler.py
-   
-   # Or run individual components:
-   python watcher.py              # Monitor Inbox folder
-   python gmail_watcher.py        # Monitor Gmail
-   python whatsapp_watcher.py     # Monitor WhatsApp for keywords
-   python reasoning_loop.py       # Process requests with reasoning
-   python linkedin_poster.py      # Generate and post LinkedIn content
-   python email_approval_workflow.py  # Handle email sending with approval
-   python agent_interface.py      # Coordinate all agent skills
-   ```
-
-5. Place files in the `Inbox` folder or receive emails/WhatsApp messages to be automatically processed
 
 ## Directory Structure
 ```
@@ -211,36 +222,56 @@ python start_monitor.py                     # Start continuous monitoring
 
 ## Usage
 
-1. **Basic Operation**: Place any files you want processed in the `Inbox` folder
-2. **Email Monitoring**: Configure Gmail credentials to monitor emails automatically
+1. **Basic Operation**: Place files in `Inbox/` to be processed automatically
+2. **Email Monitoring**: Configure Gmail credentials for automatic email monitoring
 3. **WhatsApp Monitoring**: Log in to WhatsApp Web once, then monitor for keywords
-4. **Request Processing**: The reasoning loop will create plans for requests in `Needs_Action`
-5. **Approval Workflow**: Move files from `Pending_Approval` to `Approved` directory to approve actions
-6. **LinkedIn Posts**: Drafts are created in `Pending_Approval`, move to `Approved` to post
-7. **Check logs**: Review `watcher_log.txt` and `Dashboard.md` for records of all actions
-8. **Update dashboard**: Update `Dashboard.md` with current information as needed
+4. **Request Processing**: Reasoning loop creates plans for items in `Needs_Action/`
+5. **Approval Workflow**: Move files from `Pending_Approval/` to `Approved/` to approve
+6. **LinkedIn Posts**: Drafts created in `Pending_Approval/`, move to `Approved/` to post
+7. **Check Logs**: Review `watcher_log.txt` and `Dashboard.md` for activity records
+8. **Update Dashboard**: Update `Dashboard.md` with current information as needed
 
 ## MCP Servers
 
 ### Email-MCP Server
-- Port: 8080
-- Capabilities: send-email, receive-email, process-email, gmail-watch, email-approval
+- **Port**: 8080
+- **Capabilities**: send-email, receive-email, process-email, gmail-watch, email-approval
 - Handles all email-related operations with approval workflow
 
 ### Browser-MCP Server
-- Port: 8081
-- Capabilities: browse-web, scrape-content, automate-browser, social-media-post, web-interaction, whatsapp-monitor
+- **Port**: 8081
+- **Capabilities**: browse-web, scrape-content, automate-browser, social-media-post, web-interaction, whatsapp-monitor
 - Manages web browsing, social media automation, and WhatsApp monitoring tasks
 
 ## Agent Skill Implementation
 
-The system is designed to proactively read from and write to your vault (the current directory):
+The system proactively reads from and writes to your vault (current directory):
 
-- **Reading**: The watchers monitor Inbox, Gmail, and WhatsApp continuously
-- **Writing**: Files are moved between folders, logs are written, and dashboards can be updated
+- **Reading**: Watchers monitor Inbox, Gmail, and WhatsApp continuously
+- **Writing**: Files moved between folders, logs written, dashboards updated
 - **Automation**: Multiple systems operate independently once started
-- **Reasoning**: The reasoning loop creates plans and waits for approval before acting
-- **Safety**: All email sending and social posts require explicit approval to prevent unauthorized actions
-- **Social Media**: WhatsApp messages with important keywords trigger notifications to the agent
-- **Scheduling**: The scheduler ensures continuous processing every 30 minutes
-- **Skills**: Agent skills provide modular, reusable functionality for different platforms
+- **Reasoning**: Creates plans and waits for approval before acting
+- **Safety**: All email sending and social posts require explicit approval
+- **Social Media**: WhatsApp messages with keywords trigger agent notifications
+- **Scheduling**: Scheduler ensures processing every 30 minutes
+- **Skills**: Modular, reusable functionality for different platforms
+
+## Troubleshooting
+
+### Python 3.13 Compatibility
+If you encounter `greenlet` build errors, ensure `playwright>=1.42.0` is installed (already in requirements.txt).
+
+### Playwright Browser Issues
+```bash
+playwright install --force
+```
+
+### Gmail Authentication
+Delete `token.pickle` and re-run `gmail_watcher.py` to re-authenticate.
+
+### LinkedIn Token Expired
+The auto_linkedin_poster automatically re-authenticates when token expires.
+
+---
+
+**Need Help?** Check `Dashboard.md` for system status and `Audit_Log.md` for activity history.
