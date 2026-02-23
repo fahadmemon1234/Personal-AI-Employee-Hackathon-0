@@ -246,6 +246,93 @@ The system proactively reads from and writes to your vault (current directory):
 - **Scheduling**: Scheduler ensures processing every 30 minutes
 - **Skills**: Modular, reusable functionality for different platforms
 
+## Testing & Verification
+
+### Run Comprehensive Tests
+```bash
+# Run all component tests
+python test_all_components.py
+
+# Run social media specific tests
+python test_social_mcp.py --dry-run
+
+# Test individual modules
+python -c "import watcher; print('OK')"
+python -c "import reasoning_loop; print('OK')"
+python -c "import mcp_social_server; print('OK')"
+```
+
+### Test Results (Latest: 2026-02-23)
+
+| Component | Status | Notes |
+|-----------|--------|-------|
+| Module Imports | ✅ PASS | All 8 modules import successfully |
+| Directory Structure | ✅ PASS | All 8 required directories exist |
+| Environment Config | ✅ PASS | .env file configured with social media credentials |
+| Social MCP Server | ✅ PASS | Server runs on port 8083, Instagram & Facebook configured |
+| Email MCP Server | ⚠️ OPTIONAL | Runs on port 8080 (start when needed) |
+| Browser MCP Server | ⚠️ OPTIONAL | Runs on port 8081 (start when needed) |
+| Agent Skills | ✅ PASS | 2 skills found (gmail_skill, whatsapp_skill) |
+| Documentation | ✅ PASS | All docs exist (Dashboard, Handbook, Audit_Log, README) |
+| Reasoning Loop | ✅ PASS | Initialized, 945+ plan files created |
+| Agent Interface | ✅ PASS | All approval directories exist |
+
+### Instagram Post Test Results
+
+**Endpoint:** `POST http://localhost:8083/tools/post_to_instagram`
+
+**Test Payload:**
+```json
+{
+  "account_id": "17841436842078450",
+  "caption": "Test post from AI Employee System #TestPost #AIEmployee",
+  "media_path": "https://via.placeholder.com/600x400.png?text=Test+Image",
+  "dry_run": true
+}
+```
+
+**Dry Run Mode:** ✅ Working
+- Response: `{"success": true, "dry_run": true, "message": "[DRY RUN] Would post: ..."}`
+- Posts logged to `Posts_Log.json`
+
+**Real Posting Mode:** ⚠️ Requires Public Image URL
+- Instagram Graph API requires publicly accessible image URL
+- Local file paths must be hosted or use public URL
+- API flow: Create Media Container → Publish Media
+
+**Facebook Post Test:** ✅ Working (Dry Run)
+- Endpoint: `POST http://localhost:8083/tools/post_to_facebook`
+- Supports both text and image posts
+
+### Starting MCP Servers
+
+```bash
+# Start all MCP servers
+python start_mcp_servers.py
+
+# Or start individually:
+python mcp_social_server.py    # Port 8083 - Facebook & Instagram
+python mcp_email_server.py     # Port 8080 - Gmail integration
+python mcp_browser_server.py   # Port 8081 - Browser automation
+python mcp_odoo_server.py      # Port 8082 - Odoo integration
+```
+
+### Health Check Endpoints
+
+```bash
+# Social Media Server
+curl http://localhost:8083/health
+
+# Email Server
+curl http://localhost:8080/health
+
+# Browser Server
+curl http://localhost:8081/health
+
+# Odoo Server
+curl http://localhost:8082/health
+```
+
 ## Troubleshooting
 
 ### Python 3.13 Compatibility
@@ -262,14 +349,77 @@ Delete `token.pickle` and re-run `gmail_watcher.py` to re-authenticate.
 ### WhatsApp Session Issues
 Delete `whatsapp_data/` folder and re-run `whatsapp_watcher.py` to re-authenticate.
 
+### Instagram Post Failing
+1. **Check Access Token**: Ensure `INSTAGRAM_ACCESS_TOKEN` is valid (not expired)
+2. **Public Image URL**: Instagram requires publicly accessible image URL (not local file path)
+3. **Account Type**: Must use Instagram Business or Creator account
+4. **Facebook Page Link**: Instagram account must be linked to Facebook Page
+5. **Token Permissions**: Access token needs `instagram_basic`, `pages_show_list`, `publish_to_groups`
+
+### Facebook Post Failing
+1. **Page Access Token**: Ensure token has `pages_manage_posts` permission
+2. **Page ID**: Verify `FACEBOOK_PAGE_ID` is correct
+3. **Token Expiry**: Access tokens expire, regenerate from Meta Developer Portal
+
 ### No Files in Needs_Action
 Ensure `Inbox/` directory exists and watcher.py is running.
 
 ### Plans Not Being Created
 Run `python reasoning_loop.py` manually to verify it can access `Needs_Action/` directory.
 
+### MCP Server Not Starting
+1. Check if port is already in use: `netstat -ano | findstr :8083`
+2. Kill existing process or change port in `.env`
+3. Ensure all dependencies installed: `pip install -r requirements.txt`
+
 ---
 
 **Need Help?** Check `Dashboard.md` for system status and `Audit_Log.md` for activity history.
 
 **Tested On:** Windows 11, Python 3.13, Playwright 1.58.0
+
+**Last Updated:** 2026-02-23
+
+## Quick Reference: Social Media Posting
+
+### Post to Instagram (Dry Run)
+```bash
+python -c "
+import requests
+payload = {
+    'account_id': 'your_instagram_account_id',
+    'caption': 'Your caption here #hashtags',
+    'media_path': 'https://example.com/image.jpg',
+    'dry_run': True
+}
+r = requests.post('http://localhost:8083/tools/post_to_instagram', json=payload)
+print(r.json())
+"
+```
+
+### Post to Facebook (Dry Run)
+```bash
+python -c "
+import requests
+payload = {
+    'page_id': 'your_facebook_page_id',
+    'message': 'Your message here',
+    'dry_run': True
+}
+r = requests.post('http://localhost:8083/tools/post_to_facebook', json=payload)
+print(r.json())
+"
+```
+
+### View Posts Log
+```bash
+# View JSON log of all posts
+type Posts_Log.json
+
+# View summary
+python -c "
+import requests
+r = requests.get('http://localhost:8083/tools/generate_summary')
+print(r.json())
+"
+```
