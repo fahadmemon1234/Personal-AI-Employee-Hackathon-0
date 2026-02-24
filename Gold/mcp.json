@@ -1,0 +1,53 @@
+{
+  "servers": {
+    "email-mcp": {
+      "name": "Email MCP Server",
+      "description": "Manages email operations including sending, receiving, and processing",
+      "port": 8080,
+      "host": "localhost",
+      "enabled": true,
+      "capabilities": [
+        "send-email",
+        "receive-email",
+        "process-email",
+        "gmail-watch",
+        "email-approval"
+      ],
+      "config": {
+        "gmail_credentials": "./credentials.json",
+        "token_file": "./token.pickle",
+        "watch_interval": 300
+      }
+    },
+    "browser-mcp": {
+      "name": "Browser MCP Server", 
+      "description": "Manages web browsing, scraping, and automation tasks",
+      "port": 8081,
+      "host": "localhost",
+      "enabled": true,
+      "capabilities": [
+        "browse-web",
+        "scrape-content",
+        "automate-browser",
+        "social-media-post",
+        "web-interaction"
+      ],
+      "config": {
+        "browser_type": "chrome",
+        "headless": true,
+        "timeout": 30
+      }
+    }
+  },
+  "directories": {
+    "inbox": "./Inbox",
+    "needs_action": "./Needs_Action", 
+    "approved": "./Approved",
+    "completed": "./Completed"
+  },
+  "workflow": {
+    "enable_reasoning_loop": true,
+    "approval_required": true,
+    "auto_process_unread_emails": true
+  }
+}
