@@ -52,9 +52,9 @@ for file in files:
             resp = requests.post(
                 f"{MCP_URL}/tools/post_to_facebook",
                 json={
-                    "page_id": "106665648626271",
+                    "page_id": "110326951910826",  # New Page ID
                     "message": message,
-                    "dry_run": True  # Change to False for real posting
+                    "dry_run": False  # REAL POST
                 },
                 timeout=30
             )
@@ -65,9 +65,10 @@ for file in files:
             resp = requests.post(
                 f"{MCP_URL}/tools/post_to_instagram",
                 json={
-                    "account_id": "17841436842078450",
+                    "account_id": "17841457182813798",  # Correct Instagram Account ID from .env
                     "caption": message,
-                    "dry_run": True  # Change to False for real posting
+                    "image_url": "https://img.freepik.com/free-photo/waterfall-chae-son-national-park-lampang-thailand_554837-639.jpg",  # External image URL
+                    "dry_run": False  # REAL POST
                 },
                 timeout=30
             )

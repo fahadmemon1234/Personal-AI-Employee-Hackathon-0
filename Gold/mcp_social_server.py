@@ -318,6 +318,79 @@ def health_check():
     })
 
 
+@app.route('/webhook/instagram', methods=['GET', 'POST'])
+def instagram_webhook():
+    """
+    Instagram Webhook for real-time notifications
+    Meta will send verification request (GET) and events (POST)
+    """
+    # Verification request from Meta (GET)
+    if request.method == 'GET':
+        mode = request.args.get('hub.mode')
+        token = request.args.get('hub.verify_token')
+        challenge = request.args.get('hub.challenge')
+        
+        # Check mode and token
+        if mode == 'subscribe' and token == SOCIAL_CONFIG.get('webhook_verify_token', 'IGAAc0Y32nQHpBZAFpsdVk5M3VXXzlnRUhXd3FRbHhncHcwdGRfVjZAUZA0p3ZAVl1c01yU1ZA4dlhlTFZAUS2VPcGVKa1dQUVFGMmtNY2RKU293LV9NVUplcHlJbDJuSlhVemx2NFdBdVhuSGFUcXpvSzZA3RTQ3b2FrWkx0YTM4OVlyOAZDZD'):
+            logger.info("Webhook verified successfully!")
+            return challenge, 200
+        else:
+            logger.warning(f"Webhook verification failed. Mode: {mode}, Token: {token}")
+            return 'Forbidden', 403
+    
+    # Event notification (POST)
+    elif request.method == 'POST':
+        data = request.get_json()
+        logger.info(f"Webhook event received: {json.dumps(data, indent=2)}")
+        
+        # Process the event (save to log, trigger actions, etc.)
+        if data:
+            # Save webhook events to file
+            webhook_log = BRIEFINGS_DIR / 'webhook_events.json'
+            events = []
+            if webhook_log.exists():
+                try:
+                    with open(webhook_log, 'r', encoding='utf-8') as f:
+                        events = json.load(f)
+                except:
+                    events = []
+            
+            events.append({
+                'timestamp': datetime.now().isoformat(),
+                'event': data
+            })
+            
+            with open(webhook_log, 'w', encoding='utf-8') as f:
+                json.dump(events[-100:], f, indent=2)  # Keep last 100 events
+        
+        return 'OK', 200
+
+
+@app.route('/auth/callback', methods=['GET', 'POST'])
+def auth_callback():
+    """
+    OAuth callback endpoint for Instagram/Facebook login
+    """
+    if request.method == 'GET':
+        code = request.args.get('code')
+        error = request.args.get('error')
+        
+        if error:
+            return jsonify({'success': False, 'error': error})
+        
+        if code:
+            # Exchange code for token (implement token exchange)
+            logger.info(f"OAuth code received: {code[:20]}...")
+            return jsonify({'success': True, 'code': code})
+        
+        return jsonify({'success': False, 'error': 'No code provided'})
+    
+    elif request.method == 'POST':
+        data = request.get_json()
+        logger.info(f"OAuth callback: {json.dumps(data, indent=2)}")
+        return jsonify({'success': True})
+
+
 @app.route('/tools/post_to_facebook', methods=['POST'])
 def post_to_facebook():
     """
@@ -367,27 +440,34 @@ def post_to_facebook():
             }
             log_post('facebook', {'message': message, 'page_id': page_id}, result)
             return jsonify(result)
-        
-        # Try API first, fallback to browser
-        if api_client and SOCIAL_CONFIG.get('facebook_access_token'):
-            result = api_client.post_to_facebook(page_id, message, image_path)
-        elif SOCIAL_CONFIG.get('use_browser_automation'):
-            # Browser automation (requires login credentials)
-            if not browser_automation.logged_in:
-                return jsonify({
-                    'success': False, 
-                    'error': 'Browser not logged in. Use API or provide credentials.'
-                }), 400
-            result = browser_automation.post_to_facebook(page_id, message, image_path)
+
+        # Real posting - Direct Graph API call
+        access_token = SOCIAL_CONFIG.get('facebook_access_token', '')
+        if access_token:
+            import requests as req
+            url = f"https://graph.facebook.com/v18.0/{page_id}/feed"
+            params = {
+                'message': message,
+                'access_token': access_token
+            }
+            if image_path:
+                url = f"https://graph.facebook.com/v18.0/{page_id}/photos"
+                files = {'source': open(image_path, 'rb')}
+                resp = req.post(url, params=params, files=files, timeout=30)
+            else:
+                resp = req.post(url, params=params, timeout=30)
+            
+            api_result = resp.json()
+            
+            if 'id' in api_result:
+                result = {'success': True, 'post_id': api_result['id'], 'message': 'Posted via Graph API'}
+                log_post('facebook', {'message': message, 'page_id': page_id}, result)
+                return jsonify(result)
+            else:
+                error_msg = api_result.get('error', {}).get('message', 'Unknown API error')
+                return jsonify({'success': False, 'error': error_msg})
         else:
-            return jsonify({
-                'success': False, 
-                'error': 'No posting method configured. Set API token or enable browser automation.'
-            }), 400
-        
-        log_post('facebook', {'message': message, 'page_id': page_id}, result)
-        
-        return jsonify(result)
+            return jsonify({'success': False, 'error': 'No Facebook access token configured'})
         
     except Exception as e:
         logger.error(f"Error posting to Facebook: {e}")
@@ -431,8 +511,9 @@ def post_to_instagram():
         if not caption:
             return jsonify({'success': False, 'error': 'caption is required'}), 400
         
-        if not media_path:
-            return jsonify({'success': False, 'error': 'media_path is required for Instagram'}), 400
+        # Instagram requires either image_url or media_path
+        if not data.get('image_url') and not data.get('media_path'):
+            return jsonify({'success': False, 'error': 'image_url or media_path is required for Instagram'}), 400
         
         # Dry run mode
         if dry_run:
@@ -447,11 +528,61 @@ def post_to_instagram():
             return jsonify(result)
         
         # Use API for Instagram
-        if api_client and SOCIAL_CONFIG.get('instagram_access_token'):
-            result = api_client.post_to_instagram(account_id, caption, media_path)
+        if SOCIAL_CONFIG.get('instagram_access_token'):
+            import requests as req
+            access_token = SOCIAL_CONFIG.get('instagram_access_token')
+            
+            # Get image URL or media path
+            image_url = data.get('image_url')
+            media_path = data.get('media_path')
+            
+            if not image_url and not media_path:
+                return jsonify({'success': False, 'error': 'image_url or media_path is required for Instagram'}), 400
+            
+            # Use image_url if provided, otherwise use media_path
+            media_url = image_url if image_url else f'file://{media_path}'
+            
+            # Step 1: Create media container
+            container_url = f"https://graph.facebook.com/v18.0/{account_id}/media"
+            container_params = {
+                'image_url': media_url,
+                'caption': caption,
+                'access_token': access_token
+            }
+            
+            try:
+                container_resp = req.post(container_url, params=container_params, timeout=30)
+                container_result = container_resp.json()
+                
+                if 'id' not in container_result:
+                    error_msg = container_result.get('error', {}).get('message', 'Failed to create media container')
+                    return jsonify({'success': False, 'error': error_msg})
+                
+                creation_id = container_result['id']
+                
+                # Step 2: Publish media
+                publish_url = f"https://graph.facebook.com/v18.0/{account_id}/media_publish"
+                publish_params = {
+                    'creation_id': creation_id,
+                    'access_token': access_token
+                }
+                
+                publish_resp = req.post(publish_url, params=publish_params, timeout=30)
+                publish_result = publish_resp.json()
+                
+                if 'id' in publish_result:
+                    result = {'success': True, 'post_id': publish_result['id'], 'message': 'Posted to Instagram'}
+                    log_post('instagram', {'caption': caption, 'account_id': account_id}, result)
+                    return jsonify(result)
+                else:
+                    error_msg = publish_result.get('error', {}).get('message', 'Failed to publish')
+                    return jsonify({'success': False, 'error': error_msg})
+                    
+            except Exception as e:
+                return jsonify({'success': False, 'error': f'Instagram API Error: {str(e)}'})
         else:
             return jsonify({
-                'success': False, 
+                'success': False,
                 'error': 'Instagram API not configured'
             }), 400
         

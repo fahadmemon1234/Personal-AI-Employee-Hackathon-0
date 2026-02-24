@@ -1,6 +1,6 @@
 # Meta Social Media Summary
 
-**Period:** 2026-02-16 to 2026-02-23
+**Period:** 2026-02-17 to 2026-02-24
 
 ## Overview
 
