@@ -1,0 +1,7 @@
+{
+  "task": "Process business invoice: extract details, create in Odoo, send email",
+  "started_at": "2026-02-24T16:31:26.467761",
+  "iterations": 4,
+  "status": "running",
+  "test_mode": true
+}

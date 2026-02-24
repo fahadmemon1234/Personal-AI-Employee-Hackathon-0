@@ -1,0 +1,28 @@
+[
+  {
+    "timestamp": "2026-02-24T13:38:50.937465",
+    "content": {
+      "text": "🚀 Exciting news! We're launching AI-driven web development services! \n\n✅ 50% faster delivery\n✅ Higher quality code\n✅ 24/7 support\n\n#AI #WebDev #Pakistan #Tech #Innovation",
+      "image_path": null
+    },
+    "result": {
+      "success": true,
+      "dry_run": true,
+      "message": "[DRY RUN] Would post: \"🚀 Exciting news! We're launching AI-driven web development services! \n\n✅ 50% faster delivery\n✅ Highe...\"",
+      "character_count": 170
+    }
+  },
+  {
+    "timestamp": "2026-02-24T13:55:17.731106",
+    "content": {
+      "text": "Test tweet from AI automation project #AI",
+      "image_path": null
+    },
+    "result": {
+      "success": true,
+      "dry_run": true,
+      "message": "[DRY RUN] Would post: \"Test tweet from AI automation project #AI...\"",
+      "character_count": 41
+    }
+  }
+]

@@ -1,0 +1,83 @@
+{
+  "mcpServers": {
+    "email-mcp": {
+      "command": "python",
+      "args": [
+        "mcp_email_server.py"
+      ],
+      "cwd": "D:\\Fahad Project\\AI-Driven\\Personal-AI-Employee-Hackathon-0\\Gold",
+      "env": {},
+      "description": "Email management server - send, receive, process emails with approval workflow",
+      "capabilities": ["send-email", "receive-email", "process-email", "gmail-watch", "email-approval"],
+      "port": 8080,
+      "timeout": 60
+    },
+    "browser-mcp": {
+      "command": "python",
+      "args": [
+        "mcp_browser_server.py"
+      ],
+      "cwd": "D:\\Fahad Project\\AI-Driven\\Personal-AI-Employee-Hackathon-0\\Gold",
+      "env": {},
+      "description": "Browser automation server - web browsing, scraping, automation tasks",
+      "capabilities": ["browse-web", "scrape-content", "automate-browser", "web-interaction"],
+      "port": 8081,
+      "timeout": 120
+    },
+    "odoo-mcp": {
+      "command": "python",
+      "args": [
+        "mcp_odoo_server.py"
+      ],
+      "cwd": "D:\\Fahad Project\\AI-Driven\\Personal-AI-Employee-Hackathon-0\\Gold",
+      "env": {},
+      "description": "Odoo ERP integration - invoice management, partner search, balance queries",
+      "capabilities": ["search-partners", "get-invoices", "create-invoice", "get-account-balances", "odoo-query"],
+      "port": 8082,
+      "timeout": 60
+    },
+    "social-mcp": {
+      "command": "python",
+      "args": [
+        "mcp_social_server.py"
+      ],
+      "cwd": "D:\\Fahad Project\\AI-Driven\\Personal-AI-Employee-Hackathon-0\\Gold",
+      "env": {},
+      "description": "Social media server - Facebook & Instagram posting and management",
+      "capabilities": ["post-facebook", "post-instagram", "get-social-summary", "social-analytics"],
+      "port": 8083,
+      "timeout": 90
+    },
+    "x-mcp": {
+      "command": "python",
+      "args": [
+        "mcp_x_server.py"
+      ],
+      "cwd": "D:\\Fahad Project\\AI-Driven\\Personal-AI-Employee-Hackathon-0\\Gold",
+      "env": {},
+      "description": "Twitter/X integration - post tweets, get recent posts, generate summaries",
+      "capabilities": ["post-tweet", "get-recent-posts", "generate-x-summary"],
+      "port": 8084,
+      "timeout": 60
+    }
+  },
+  "settings": {
+    "autoStart": false,
+    "logLevel": "info",
+    "retryOnFailure": true,
+    "maxRetries": 3
+  },
+  "workflow": {
+    "enableReasoningLoop": true,
+    "approvalRequired": true,
+    "autoProcessUnreadEmails": true,
+    "crossServerCommunication": true
+  },
+  "directories": {
+    "inbox": "D:\\Fahad Project\\AI-Driven\\Personal-AI-Employee-Hackathon-0\\Gold\\Inbox",
+    "needsAction": "D:\\Fahad Project\\AI-Driven\\Personal-AI-Employee-Hackathon-0\\Gold\\Needs_Action",
+    "approved": "D:\\Fahad Project\\AI-Driven\\Personal-AI-Employee-Hackathon-0\\Gold\\Approved",
+    "completed": "D:\\Fahad Project\\AI-Driven\\Personal-AI-Employee-Hackathon-0\\Gold\\Completed",
+    "pendingApproval": "D:\\Fahad Project\\AI-Driven\\Personal-AI-Employee-Hackathon-0\\Gold\\Pending_Approval"
+  }
+}
