@@ -1,0 +1,225 @@
+{
+  "timestamp": "2026-02-23T20:35:34.684554",
+  "tests": [
+    {
+      "name": "Import: Inbox Watcher",
+      "status": "PASS",
+      "message": "Module imported successfully",
+      "details": {}
+    },
+    {
+      "name": "Import: Reasoning Loop",
+      "status": "PASS",
+      "message": "Module imported successfully",
+      "details": {}
+    },
+    {
+      "name": "Import: Gmail Watcher",
+      "status": "PASS",
+      "message": "Module imported successfully",
+      "details": {}
+    },
+    {
+      "name": "Import: Email Approval Workflow",
+      "status": "PASS",
+      "message": "Module imported successfully",
+      "details": {}
+    },
+    {
+      "name": "Import: Agent Interface",
+      "status": "PASS",
+      "message": "Module imported successfully",
+      "details": {}
+    },
+    {
+      "name": "Import: Social Media MCP",
+      "status": "PASS",
+      "message": "Module imported successfully",
+      "details": {}
+    },
+    {
+      "name": "Import: Email MCP",
+      "status": "PASS",
+      "message": "Module imported successfully",
+      "details": {}
+    },
+    {
+      "name": "Import: Browser MCP",
+      "status": "PASS",
+      "message": "Module imported successfully",
+      "details": {}
+    },
+    {
+      "name": "Directory: Inbox",
+      "status": "PASS",
+      "message": "Exists",
+      "details": {}
+    },
+    {
+      "name": "Directory: Needs_Action",
+      "status": "PASS",
+      "message": "Exists",
+      "details": {}
+    },
+    {
+      "name": "Directory: Pending_Approval",
+      "status": "PASS",
+      "message": "Exists",
+      "details": {}
+    },
+    {
+      "name": "Directory: Approved",
+      "status": "PASS",
+      "message": "Exists",
+      "details": {}
+    },
+    {
+      "name": "Directory: Completed",
+      "status": "PASS",
+      "message": "Created successfully",
+      "details": {}
+    },
+    {
+      "name": "Directory: Plans",
+      "status": "PASS",
+      "message": "Exists",
+      "details": {}
+    },
+    {
+      "name": "Directory: Sent",
+      "status": "PASS",
+      "message": "Created successfully",
+      "details": {}
+    },
+    {
+      "name": "Directory: Briefings",
+      "status": "PASS",
+      "message": "Exists",
+      "details": {}
+    },
+    {
+      "name": "Config: .env file",
+      "status": "PASS",
+      "message": "Environment file exists",
+      "details": {}
+    },
+    {
+      "name": "Config: Social Media",
+      "status": "PASS",
+      "message": "Facebook and Instagram configured",
+      "details": {}
+    },
+    {
+      "name": "Social MCP: Health Check",
+      "status": "FAIL",
+      "message": "Server not running. Start with: python mcp_social_server.py",
+      "details": {}
+    },
+    {
+      "name": "Social MCP: Instagram Post",
+      "status": "FAIL",
+      "message": "HTTPConnectionPool(host='localhost', port=8083): Max retries exceeded with url: /tools/post_to_instagram (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=8083): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))",
+      "details": {}
+    },
+    {
+      "name": "Social MCP: Facebook Post",
+      "status": "FAIL",
+      "message": "HTTPConnectionPool(host='localhost', port=8083): Max retries exceeded with url: /tools/post_to_facebook (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=8083): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))",
+      "details": {}
+    },
+    {
+      "name": "Email MCP: Health Check",
+      "status": "FAIL",
+      "message": "Server not running. Start with: python mcp_email_server.py",
+      "details": {}
+    },
+    {
+      "name": "Browser MCP: Health Check",
+      "status": "FAIL",
+      "message": "Server not running. Start with: python mcp_browser_server.py",
+      "details": {}
+    },
+    {
+      "name": "Agent Skills: Directory",
+      "status": "PASS",
+      "message": "Skills directory exists",
+      "details": {}
+    },
+    {
+      "name": "Agent Skills: Count",
+      "status": "PASS",
+      "message": "2 skills found",
+      "details": {
+        "skills": [
+          "gmail_skill",
+          "whatsapp_skill"
+        ]
+      }
+    },
+    {
+      "name": "Doc: Dashboard",
+      "status": "PASS",
+      "message": "Dashboard.md exists",
+      "details": {}
+    },
+    {
+      "name": "Doc: Company Handbook",
+      "status": "PASS",
+      "message": "Company_Handbook.md exists",
+      "details": {}
+    },
+    {
+      "name": "Doc: Audit Log",
+      "status": "PASS",
+      "message": "Audit_Log.md exists",
+      "details": {}
+    },
+    {
+      "name": "Doc: README",
+      "status": "PASS",
+      "message": "README.md exists",
+      "details": {}
+    },
+    {
+      "name": "Reasoning Loop: Init",
+      "status": "PASS",
+      "message": "ReasoningLoop initialized",
+      "details": {}
+    },
+    {
+      "name": "Reasoning Loop: Plans",
+      "status": "PASS",
+      "message": "945 plan files found",
+      "details": {}
+    },
+    {
+      "name": "Agent Interface: Init",
+      "status": "PASS",
+      "message": "AgentInterface initialized",
+      "details": {}
+    },
+    {
+      "name": "Agent Interface: Pending Approval",
+      "status": "PASS",
+      "message": "Directory exists",
+      "details": {}
+    },
+    {
+      "name": "Agent Interface: Approved",
+      "status": "PASS",
+      "message": "Directory exists",
+      "details": {}
+    },
+    {
+      "name": "Agent Interface: Completed",
+      "status": "PASS",
+      "message": "Directory exists",
+      "details": {}
+    }
+  ],
+  "summary": {
+    "total": 35,
+    "passed": 30,
+    "failed": 5
+  }
+}
