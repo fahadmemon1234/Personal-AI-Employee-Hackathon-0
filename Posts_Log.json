@@ -522,5 +522,33 @@
       "message": "[DRY RUN] Would post: \"🚀 Transform your business with AI-powered solutions!\n\n#WebDevelopment #AI #Tech #Pakistan #Business ...\"",
       "account_id": "17841457182813798"
     }
+  },
+  {
+    "timestamp": "2026-02-24T13:46:02.368111",
+    "platform": "facebook",
+    "content": {
+      "message": "🎉 Exciting News!\n\nWe're thrilled to announce our new AI-driven web development services!\n\n✅ Faster delivery times\n✅ Higher quality code\n✅ Better customer support\n\n📞 +92-300-1234567\n\n#WebDev #AI #Pakistan #Tech",
+      "page_id": "110326951910826"
+    },
+    "result": {
+      "success": true,
+      "dry_run": true,
+      "message": "[DRY RUN] Would post: \"🎉 Exciting News!\n\nWe're thrilled to announce our new AI-driven web development services!\n\n✅ Faster d...\"",
+      "page_id": "110326951910826"
+    }
+  },
+  {
+    "timestamp": "2026-02-24T13:46:04.467197",
+    "platform": "instagram",
+    "content": {
+      "caption": "🚀 Transform your business with AI-powered solutions!\n\n#WebDevelopment #AI #Tech #Pakistan #Business #Innovation",
+      "account_id": "17841457182813798"
+    },
+    "result": {
+      "success": true,
+      "dry_run": true,
+      "message": "[DRY RUN] Would post: \"🚀 Transform your business with AI-powered solutions!\n\n#WebDevelopment #AI #Tech #Pakistan #Business ...\"",
+      "account_id": "17841457182813798"
+    }
   }
 ]

@@ -1,0 +1,162 @@
+{
+  "_comment": "LOCAL AGENT CONFIGURATION - Platinum Tier",
+  "_description": "This config is for the Local Agent running on user's machine. It has FULL execution capabilities and owns all secrets.",
+  "_agent_type": "local",
+  "_security_level": "full_access",
+  "_capabilities": {
+    "email": "full_execute",
+    "social": "full_execute",
+    "odoo": "full_execute",
+    "whatsapp": "full_access",
+    "banking": "full_access",
+    "payments": "full_access",
+    "approval": "handle_approvals"
+  },
+  "mcpServers": {
+    "email-mcp": {
+      "command": "python",
+      "args": ["mcp_email_server.py", "--mode", "full"],
+      "cwd": "D:\\Fahad Project\\AI-Driven\\Personal-AI-Employee-Hackathon-0\\Platinum",
+      "env": {},
+      "description": "Email management - FULL capability (can send)",
+      "capabilities": ["send-email", "receive-email", "process-email", "gmail-watch", "email-approval"],
+      "port": 8080,
+      "timeout": 60
+    },
+    "browser-mcp": {
+      "command": "python",
+      "args": ["mcp_browser_server.py"],
+      "cwd": "D:\\Fahad Project\\AI-Driven\\Personal-AI-Employee-Hackathon-0\\Platinum",
+      "env": {},
+      "description": "Browser automation - web browsing, scraping, automation tasks",
+      "capabilities": ["browse-web", "scrape-content", "automate-browser", "web-interaction"],
+      "port": 8081,
+      "timeout": 120
+    },
+    "odoo-mcp": {
+      "command": "python",
+      "args": ["mcp_odoo_server.py", "--mode", "full"],
+      "cwd": "D:\\Fahad Project\\AI-Driven\\Personal-AI-Employee-Hackathon-0\\Platinum",
+      "env": {},
+      "description": "Odoo ERP - FULL capability (can post)",
+      "capabilities": ["search-partners", "get-invoices", "create-invoice", "post-invoice", "get-account-balances", "odoo-query"],
+      "port": 8082,
+      "timeout": 60
+    },
+    "social-mcp": {
+      "command": "python",
+      "args": ["mcp_social_server.py", "--mode", "full"],
+      "cwd": "D:\\Fahad Project\\AI-Driven\\Personal-AI-Employee-Hackathon-0\\Platinum",
+      "env": {},
+      "description": "Social media - FULL capability (can publish)",
+      "capabilities": ["post-facebook", "post-instagram", "get-social-summary", "social-analytics"],
+      "port": 8083,
+      "timeout": 90
+    },
+    "x-mcp": {
+      "command": "python",
+      "args": ["mcp_x_server.py", "--mode", "full"],
+      "cwd": "D:\\Fahad Project\\AI-Driven\\Personal-AI-Employee-Hackathon-0\\Platinum",
+      "env": {},
+      "description": "Twitter/X - FULL capability (can post)",
+      "capabilities": ["post-tweet", "get-recent-posts", "generate-x-summary"],
+      "port": 8084,
+      "timeout": 60
+    },
+    "whatsapp-mcp": {
+      "command": "python",
+      "args": ["mcp_whatsapp_server.py"],
+      "cwd": "D:\\Fahad Project\\AI-Driven\\Personal-AI-Employee-Hackathon-0\\Platinum",
+      "env": {},
+      "description": "WhatsApp - FULL capability (Local ONLY, Cloud has ZERO access)",
+      "capabilities": ["send-message", "receive-message", "get-contacts", "whatsapp-watch"],
+      "port": 8085,
+      "timeout": 120,
+      "_local_only": true
+    },
+    "banking-mcp": {
+      "command": "python",
+      "args": ["mcp_banking_server.py"],
+      "cwd": "D:\\Fahad Project\\AI-Driven\\Personal-AI-Employee-Hackathon-0\\Platinum",
+      "env": {},
+      "description": "Banking/Payments - FULL capability (Local ONLY, Cloud has ZERO access)",
+      "capabilities": ["check-balance", "transfer-funds", "get-transactions", "pay-invoice"],
+      "port": 8086,
+      "timeout": 60,
+      "_local_only": true
+    }
+  },
+  "settings": {
+    "autoStart": true,
+    "logLevel": "info",
+    "retryOnFailure": true,
+    "maxRetries": 3,
+    "agent_type": "local",
+    "draft_only_mode": false
+  },
+  "workflow": {
+    "enableReasoningLoop": true,
+    "approvalRequired": false,
+    "autoProcessUnreadEmails": true,
+    "crossServerCommunication": true,
+    "write_to_pending_approval": false,
+    "write_to_updates": false,
+    "write_to_dashboard": true
+  },
+  "directories": {
+    "inbox": "D:\\Fahad Project\\AI-Driven\\Personal-AI-Employee-Hackathon-0\\Platinum\\Inbox",
+    "needsAction": "D:\\Fahad Project\\AI-Driven\\Personal-AI-Employee-Hackathon-0\\Platinum\\Needs_Action",
+    "inProgress": "D:\\Fahad Project\\AI-Driven\\Personal-AI-Employee-Hackathon-0\\Platinum\\In_Progress\\local",
+    "pendingApproval": "D:\\Fahad Project\\AI-Driven\\Personal-AI-Employee-Hackathon-0\\Platinum\\Pending_Approval",
+    "updates": "D:\\Fahad Project\\AI-Driven\\Personal-AI-Employee-Hackathon-0\\Platinum\\Updates",
+    "signals": "D:\\Fahad Project\\AI-Driven\\Personal-AI-Employee-Hackathon-0\\Platinum\\Signals",
+    "approved": "D:\\Fahad Project\\AI-Driven\\Personal-AI-Employee-Hackathon-0\\Platinum\\Approved",
+    "completed": "D:\\Fahad Project\\AI-Driven\\Personal-AI-Employee-Hackathon-0\\Platinum\\Completed",
+    "done": "D:\\Fahad Project\\AI-Driven\\Personal-AI-Employee-Hackathon-0\\Platinum\\Done",
+    "whatsappData": "D:\\Fahad Project\\AI-Driven\\Personal-AI-Employee-Hackathon-0\\Platinum\\whatsapp_data"
+  },
+  "security": {
+    "secret_paths": [
+      "D:\\Fahad Project\\AI-Driven\\Personal-AI-Employee-Hackathon-0\\Platinum\\.env.local",
+      "D:\\Fahad Project\\AI-Driven\\Personal-AI-Employee-Hackathon-0\\Platinum\\whatsapp_data",
+      "D:\\Fahad Project\\AI-Driven\\Personal-AI-Employee-Hackathon-0\\Platinum\\banking",
+      "D:\\Fahad Project\\AI-Driven\\Personal-AI-Employee-Hackathon-0\\Platinum\\creds",
+      "D:\\Fahad Project\\AI-Driven\\Personal-AI-Employee-Hackathon-0\\Platinum\\tokens"
+    ],
+    "never_sync_files": [
+      ".env",
+      ".env.local",
+      ".env.cloud",
+      "credentials.json",
+      "token.pickle",
+      "*.key",
+      "*.pem",
+      "*.crt"
+    ],
+    "local_only_folders": [
+      "whatsapp_data",
+      "banking",
+      "creds",
+      "tokens",
+      "sessions"
+    ]
+  },
+  "sync": {
+    "method": "git",
+    "interval_minutes": 5,
+    "pull_before_process": true,
+    "push_after_process": true,
+    "remote": "origin",
+    "branch": "main",
+    "merge_updates": true,
+    "update_dashboard": true
+  },
+  "approval_workflow": {
+    "monitor_pending_approval": true,
+    "user_approval_required": true,
+    "approval_check_method": "checkbox_in_markdown",
+    "on_approval": "execute_via_mcp",
+    "on_reject": "move_to_cancelled",
+    "log_all_actions": true
+  }
+}

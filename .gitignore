@@ -49,17 +49,47 @@ Thumbs.db
 *.log
 logs/
 
-# Environment variables
+# =============================================================================
+# PLATINUM TIER SECURITY RULES - CRITICAL
+# =============================================================================
+# NEVER sync these files to Git. Cloud must NEVER have access to secrets.
+# =============================================================================
+
+# Environment variables (ALL types)
 .env
 .env.local
+.env.cloud
 .env.production
+.env.*.local
+.env.*.cloud
 
-# Token and credentials files
+# Token and credentials files (CRITICAL - Cloud ZERO access)
 token.pickle
 credentials.json
+oauth-credentials.json
+service-account.json
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
 
-# Local configuration
+# WhatsApp session data (LOCAL ONLY - Cloud ZERO access)
+whatsapp_data/
+whatsapp_session/
+sessions/
+browser_sessions/
+
+# Banking and payment credentials (LOCAL ONLY - Cloud ZERO access)
+banking/
+creds/
+tokens/
+payment_tokens/
+bank_credentials/
+
+# Local configuration (machine-specific)
 config.local.json
+local_config.yaml
 
 # Temporary files
 tmp/
@@ -74,6 +104,8 @@ temp/
 .cache/
 .pytest_cache/
 .hypothesis/
+.mypy_cache/
+.pytype/
 
 # Output files
 *.out
@@ -86,7 +118,7 @@ temp/
 *.tar.gz
 *.rar
 
-# Database files
+# Database files (may contain sensitive data)
 *.db
 *.sqlite
 *.sqlite3
@@ -96,16 +128,66 @@ secret.key
 private.key
 id_rsa
 id_dsa
+id_ed25519
+*.ppk
 
 # Platform-specific
 .DS_Store
 Thumbs.db
 desktop.ini
 
-# Custom project exclusions
+# Custom project exclusions (Gold Tier)
 Posted/
 Sent/
 Completed/
 Posted/**
 Sent/**
 Completed/**
+
+# =============================================================================
+# PLATINUM TIER ADDITIONAL EXCLUSIONS
+# =============================================================================
+
+# Ralph state files (local state)
+ralph_state.json
+ralph_test_state.json
+
+# Posts logs (may contain API responses with tokens)
+Posts_Log.json
+Posts_Log_X.json
+
+# Watcher logs (may contain sensitive message content)
+watcher_log.txt
+
+# System reports
+system_report.txt
+
+# Test files with potential sensitive data
+test_*.md
+test_*.json
+
+# Odoo local database dumps (backups - should not be synced)
+odoo_backups/
+*.dump
+*.sql
+
+# Local MCP server logs
+mcp_*.log
+
+# Python bytecode in subdirectories
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+
+# Node.js (if used)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# IDE specific (recursive)
+**/.vscode/
+**/.idea/
+
+# OS specific (recursive)
+**/.DS_Store
+**/Thumbs.db
