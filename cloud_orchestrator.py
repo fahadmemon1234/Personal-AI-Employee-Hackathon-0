@@ -174,8 +174,12 @@ class CloudOrchestrator:
         """
         logger.info(f"Processing email task: {task_file}")
         
-        # Read task content
-        task_path = self.vault_path / "Needs_Action" / task_file
+        # Read task content (from In_Progress/cloud/ since it was claimed)
+        task_path = self.vault_path / "In_Progress" / "cloud" / task_file
+        if not task_path.exists():
+            # Fallback to Needs_Action if not yet moved
+            task_path = self.vault_path / "Needs_Action" / task_file
+            
         with open(task_path, 'r', encoding='utf-8') as f:
             task_content = f.read()
             
@@ -307,8 +311,11 @@ Final send will be executed by Local Agent with full credentials.
         """
         logger.info(f"Processing social media task: {task_file}")
         
-        # Read task content
-        task_path = self.vault_path / "Needs_Action" / task_file
+        # Read task content (from In_Progress/cloud/ since it was claimed)
+        task_path = self.vault_path / "In_Progress" / "cloud" / task_file
+        if not task_path.exists():
+            task_path = self.vault_path / "Needs_Action" / task_file
+            
         with open(task_path, 'r', encoding='utf-8') as f:
             task_content = f.read()
             
@@ -426,8 +433,11 @@ Final publish will be executed by Local Agent with full API access.
         """
         logger.info(f"Processing accounting task: {task_file}")
         
-        # Read task content
-        task_path = self.vault_path / "Needs_Action" / task_file
+        # Read task content (from In_Progress/cloud/ since it was claimed)
+        task_path = self.vault_path / "In_Progress" / "cloud" / task_file
+        if not task_path.exists():
+            task_path = self.vault_path / "Needs_Action" / task_file
+            
         with open(task_path, 'r', encoding='utf-8') as f:
             task_content = f.read()
             
